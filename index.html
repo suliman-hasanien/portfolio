@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suliman Hasanien — Developer + Motion</title>
+<meta name="description" content="Suliman Hasanien — developer who builds motion graphics and video ads with code (Remotion, React, Python, FFmpeg). Based in Gaza, Palestine.">
+<meta property="og:title" content="Suliman Hasanien — Developer + Motion">
+<meta property="og:description" content="Motion graphics and video ads built with code: Remotion, React, Python, FFmpeg.">
+<meta property="og:image" content="media/masar_full.jpg">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%230E0E10'/><path d='M14 44 L26 20 L38 44 L50 20' stroke='%23FF5A36' stroke-width='7' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+<style>
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-arabic-500-normal.woff2) format("woff2");font-weight:500;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-arabic-700-normal.woff2) format("woff2");font-weight:700;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-arabic-800-normal.woff2) format("woff2");font-weight:800;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-latin-500-normal.woff2) format("woff2");font-weight:500}
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-latin-700-normal.woff2) format("woff2");font-weight:700}
+@font-face{font-family:Alexandria;src:url(fonts/alexandria-latin-800-normal.woff2) format("woff2");font-weight:800}
+@font-face{font-family:Readex;src:url(fonts/readex-pro-arabic-500-normal.woff2) format("woff2");font-weight:500;unicode-range:U+0600-06FF,U+0750-077F,U+FB50-FDFF,U+FE70-FEFF}
+@font-face{font-family:Readex;src:url(fonts/readex-pro-latin-500-normal.woff2) format("woff2");font-weight:500}
+
+:root{
+  --bg:#0E0E10; --bg2:#16161A; --card:#1B1B20; --line:rgba(255,255,255,.09);
+  --text:#F3F0E9; --muted:#A39E94; --accent:#FF5A36; --accent2:#2FBF71;
+  --radius:22px; --max:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:Readex,system-ui,sans-serif;font-weight:500;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2,h3,.head{font-family:Alexandria,system-ui,sans-serif}
+a{color:inherit}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 24px}
+
+/* language switch: content exists twice, html[lang] decides which shows */
+html[lang=en] .ar{display:none!important}
+html[lang=ar] .en{display:none!important}
+
+/* nav */
+nav{position:sticky;top:0;z-index:20;background:rgba(14,14,16,.78);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.logo{font-family:Alexandria;font-weight:800;font-size:18px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:12px;height:12px;border-radius:12px;background:var(--accent);display:inline-block;box-shadow:0 0 18px var(--accent)}
+.navlinks{display:flex;gap:22px;align-items:center;font-size:15px}
+.navlinks a{text-decoration:none;color:var(--muted)}
+.navlinks a:hover{color:var(--text)}
+.lang{border:1px solid var(--line);background:transparent;color:var(--text);border-radius:99px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.lang:hover{border-color:var(--accent)}
+
+/* hero */
+.hero{padding:96px 0 72px;position:relative}
+.hero:before{content:"";position:absolute;inset:-200px 0 auto;height:640px;background:radial-gradient(ellipse 50% 60% at 70% 20%,rgba(255,90,54,.16),transparent 70%),radial-gradient(ellipse 40% 50% at 15% 40%,rgba(47,191,113,.10),transparent 70%);pointer-events:none}
+.hero .wrap{position:relative;display:grid;grid-template-columns:1.25fr .75fr;gap:48px;align-items:center}
+.kicker{display:inline-flex;align-items:center;gap:10px;font-size:14px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:6px 14px 6px 10px}
+.kicker b{width:8px;height:8px;border-radius:8px;background:var(--accent2);box-shadow:0 0 10px var(--accent2)}
+.hero h1{font-size:clamp(40px,6.4vw,76px);line-height:1.04;font-weight:800;margin:22px 0 20px;letter-spacing:-.02em}
+html[lang=ar] .hero h1{letter-spacing:0;line-height:1.25}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero p.lead{font-size:clamp(17px,2vw,20px);color:var(--muted);max-width:560px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:32px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:13px 22px;border-radius:99px;font-family:Alexandria;font-weight:700;font-size:15px;text-decoration:none;border:1px solid var(--line);transition:transform .2s,border-color .2s,background .2s}
+.btn:hover{transform:translateY(-2px);border-color:var(--text)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#120806}
+.btn svg{width:18px;height:18px}
+.stats{display:flex;gap:34px;margin-top:44px;flex-wrap:wrap}
+.stats div b{display:block;font-family:Alexandria;font-weight:800;font-size:30px}
+.stats div span{color:var(--muted);font-size:14px}
+
+/* phone mock */
+.phone{position:relative;aspect-ratio:9/16;width:100%;max-width:330px;margin-inline:auto;border-radius:38px;padding:10px;background:linear-gradient(160deg,#2a2a31,#0b0b0d);box-shadow:0 40px 90px rgba(0,0,0,.55),inset 0 0 0 1px rgba(255,255,255,.08)}
+.phone video,.phone img{width:100%;height:100%;object-fit:cover;border-radius:30px;display:block;background:#000}
+.phone:after{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:84px;height:22px;border-radius:20px;background:#000}
+
+section{padding:72px 0}
+.sec-head{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(30px,4vw,44px);font-weight:800;line-height:1.15}
+.sec-head p{color:var(--muted);max-width:460px}
+.num{font-family:Alexandria;color:var(--accent);font-weight:700;font-size:14px;letter-spacing:.12em;margin-bottom:10px;display:block}
+
+/* projects */
+.project{display:grid;grid-template-columns:.9fr 1.1fr;gap:40px;align-items:center;background:var(--bg2);border:1px solid var(--line);border-radius:var(--radius);padding:36px;margin-bottom:26px}
+.project:nth-child(even) .media{order:2}
+.media{display:flex;gap:16px;justify-content:center}
+.thumb{position:relative;flex:1;max-width:240px;aspect-ratio:9/16;border-radius:20px;overflow:hidden;cursor:pointer;border:1px solid var(--line);background:#000;padding:0;font:inherit;color:inherit}
+.thumb img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.thumb:hover img{transform:scale(1.05)}
+.thumb .play{position:absolute;inset:auto 12px 12px 12px;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(0,0,0,.6);backdrop-filter:blur(8px);border-radius:14px;padding:9px 12px;font-size:13px;font-family:Alexandria;font-weight:700}
+.thumb .play i{width:30px;height:30px;border-radius:30px;background:var(--accent);display:grid;place-items:center;flex:none}
+.thumb .play i:after{content:"";border-left:10px solid #120806;border-top:6px solid transparent;border-bottom:6px solid transparent;margin-left:3px}
+.thumb .dur{color:var(--muted);font-weight:500}
+.info .tag{display:inline-block;font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:4px 12px;margin-bottom:14px}
+.info h3{font-size:clamp(26px,3vw,34px);font-weight:800;line-height:1.2;margin-bottom:12px}
+.info p{color:var(--muted);margin-bottom:16px}
+.info ul{list-style:none;display:grid;gap:9px;margin:18px 0 22px}
+.info li{display:flex;gap:10px;align-items:flex-start}
+.info li:before{content:"";flex:none;width:7px;height:7px;border-radius:7px;background:var(--accent2);margin-top:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.chips span{font-size:13px;background:rgba(255,255,255,.06);border-radius:8px;padding:4px 10px;direction:ltr}
+.link{font-family:Alexandria;font-weight:700;font-size:15px;text-decoration:none;color:var(--accent);display:inline-flex;gap:8px;align-items:center}
+.link:hover{text-decoration:underline}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.step b{font-family:Alexandria;font-size:40px;font-weight:800;color:rgba(255,255,255,.12);display:block;line-height:1}
+.step h3{font-size:19px;margin:16px 0 8px}
+.step p{color:var(--muted);font-size:15px}
+.note{margin-top:22px;color:var(--muted);font-size:15px;border-inline-start:3px solid var(--accent);padding-inline-start:14px}
+
+/* skills */
+.skills{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.skill{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+.skill h3{font-size:18px;margin-bottom:14px;display:flex;gap:10px;align-items:center}
+.skill h3 i{width:10px;height:10px;border-radius:3px;background:var(--accent)}
+.skill:nth-child(2) h3 i{background:var(--accent2)}
+.skill:nth-child(3) h3 i{background:#F2C14E}
+
+/* about + contact */
+.about{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+.about p{color:var(--muted);font-size:17px;margin-bottom:14px}
+.contact{background:linear-gradient(135deg,rgba(255,90,54,.14),rgba(47,191,113,.08));border:1px solid var(--line);border-radius:var(--radius);padding:34px}
+.contact h3{font-size:28px;font-weight:800;margin-bottom:10px}
+.contact p{color:var(--muted);margin-bottom:22px}
+.contact .cta{margin-top:0}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--muted);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+/* video dialog */
+dialog{border:0;background:transparent;margin:auto;max-width:min(92vw,440px);width:100%;overflow:visible}
+dialog::backdrop{background:rgba(5,5,6,.86);backdrop-filter:blur(6px)}
+dialog video{width:100%;max-height:86vh;aspect-ratio:9/16;border-radius:24px;background:#000;display:block}
+dialog .close{position:absolute;top:-48px;inset-inline-end:0;width:40px;height:40px;border-radius:40px;border:1px solid var(--line);background:var(--bg2);color:var(--text);font-size:20px;cursor:pointer}
+dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
+
+/* reveal on scroll */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
+.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+
+@media (max-width:900px){
+  .hero .wrap,.project,.about{grid-template-columns:1fr}
+  .project:nth-child(even) .media{order:0}
+  .steps{grid-template-columns:1fr 1fr}
+  .skills{grid-template-columns:1fr}
+  .hero{padding-top:56px}
+  .phone{max-width:260px}
+}
+@media (max-width:560px){
+  .wrap{padding:0 16px}
+  .navlinks a{display:none}
+  .project{padding:20px}
+  .steps{grid-template-columns:1fr}
+  .stats{gap:22px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a class="logo" href="#top"><i></i>Suliman Hasanien</a>
+    <div class="navlinks">
+      <a href="#work"><span class="en">Work</span><span class="ar">الأعمال</span></a>
+      <a href="#process"><span class="en">Process</span><span class="ar">طريقة الشغل</span></a>
+      <a href="#about"><span class="en">About</span><span class="ar">عني</span></a>
+      <button class="lang" id="lang" type="button"><span class="en">العربية</span><span class="ar">English</span></button>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="rv">
+      <span class="kicker"><b></b><span class="en">Available for freelance &amp; full-time · Gaza, Palestine</span><span class="ar">متاح للعمل الحر والدوام الكامل · غزة، فلسطين</span></span>
+      <h1 class="en">Developer who builds <em>motion</em> with code.</h1>
+      <h1 class="ar">مطوّر بيصنع <em>الموشن</em> بالكود.</h1>
+      <p class="lead en">I make motion graphics, social-media ads and explainer videos using React (Remotion), Python and FFmpeg — so every animation, caption and soundtrack is precise, editable and re-renderable in minutes.</p>
+      <p class="lead ar">بعمل موشن جرافيك وإعلانات سوشال ميديا وفيديوهات شرح باستخدام <bdi>React (Remotion)</bdi> و<bdi>Python</bdi> و<bdi>FFmpeg</bdi>، فكل حركة وكل ترجمة وكل موسيقى دقيقة، وبتنعدل وبتطلع من جديد بدقايق.</p>
+      <div class="cta">
+        <a class="btn primary" href="#work"><span class="en">See the work</span><span class="ar">شوف الأعمال</span></a>
+        <a class="btn" href="https://github.com/suliman-hasanien" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.05-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.56-.29-5.25-1.28-5.25-5.68 0-1.26.45-2.28 1.18-3.09-.12-.29-.51-1.46.11-3.04 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.58.23 2.75.11 3.04.74.81 1.18 1.83 1.18 3.09 0 4.41-2.69 5.38-5.26 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5z"/></svg>
+          GitHub
+        </a>
+      </div>
+      <div class="stats">
+        <div><b>5</b><span class="en">videos delivered</span><span class="ar">فيديوهات مسلّمة</span></div>
+        <div><b>3</b><span class="en">clients</span><span class="ar">عملاء</span></div>
+        <div><b>100%</b><span class="en">original music</span><span class="ar">موسيقى أصلية</span></div>
+      </div>
+    </div>
+    <div class="rv">
+      <div class="phone"><video src="media/masar_short.mp4" poster="media/masar_short.jpg" autoplay muted loop playsinline preload="metadata"></video></div>
+    </div>
+  </div>
+</header>
+
+<section id="work">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><span class="num">01 — <span class="en">SELECTED WORK</span><span class="ar">أعمال مختارة</span></span>
+        <h2><span class="en">Projects</span><span class="ar">المشاريع</span></h2></div>
+      <p><span class="en">Vertical (9:16) videos for Instagram, TikTok and Facebook. Tap a video to play it with sound.</span><span class="ar">فيديوهات عمودية (9:16) لإنستغرام وتيك توك وفيسبوك. اكبس على أي فيديو عشان يشتغل بالصوت.</span></p>
+    </div>
+
+    <!-- Masar Jadid -->
+    <article class="project rv">
+      <div class="media">
+        <button class="thumb" data-video="media/masar_full.mp4" data-title="Masar Jadid — Full vision (2:34)"><img src="media/masar_full.jpg" alt="Masar Jadid vision video — the four pillars scene" loading="lazy"><span class="play"><i></i><span><span class="en">Full</span><span class="ar">الكامل</span></span><span class="dur">2:34</span></span></button>
+        <button class="thumb" data-video="media/masar_short.mp4" data-title="Masar Jadid — Short cut (0:41)"><img src="media/masar_short.jpg" alt="Masar Jadid short cut — logo reveal" loading="lazy"><span class="play"><i></i><span><span class="en">Short</span><span class="ar">المختصر</span></span><span class="dur">0:41</span></span></button>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Motion graphics · Political party</span><span class="ar">موشن جرافيك · حزب سياسي</span></span>
+        <h3><span class="en">Masar Jadid — Party Vision</span><span class="ar">مسار جديد — رؤية الحزب</span></h3>
+        <p class="en">A 3-page vision document turned into a 13-scene animated explainer, plus a 41-second social cut — no stock footage, everything is drawn and animated in code.</p>
+        <p class="ar">ملف رؤية من 3 صفحات تحوّل لفيديو موشن من 13 مشهد، ومعه نسخة مختصرة 41 ثانية للسوشال. ما في ولا لقطة جاهزة، كل إشي مرسوم ومتحرك بالكود.</p>
+        <ul>
+          <li><span class="en">Split the client's logo into layers (calligraphy, red and green strokes) to animate it being written</span><span class="ar">فصلت شعار العميل لطبقات (الخط، والخط الأحمر، والخط الأخضر) عشان يبيّن كأنه بينكتب</span></li>
+          <li><span class="en">Custom kinetic Arabic typography, line icons, a parliament built from pillars, a hand-drawn Dome of the Rock</span><span class="ar">كتابة عربية متحركة، وأيقونات مرسومة، وبرلمان بيتبنى من أعمدة، وقبة الصخرة بترسم حالها</span></li>
+          <li><span class="en">Original score synthesized in Python and generated from the same scene timeline, so every transition lands on the beat</span><span class="ar">موسيقى أصلية مولّدة بـ Python من نفس تايملاين المشاهد، فكل انتقال بيجي على الإيقاع</span></li>
+        </ul>
+        <div class="chips"><span>Remotion</span><span>React / TypeScript</span><span>SVG animation</span><span>Python · NumPy</span><span>FFmpeg</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/masar-jadid-motion" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Princess Gaza -->
+    <article class="project rv">
+      <div class="media">
+        <button class="thumb" data-video="media/pg_ad.mp4" data-title="Princess Gaza — Henna night ad"><img src="media/pg_ad.jpg" alt="Princess Gaza henna night ad" loading="lazy"><span class="play"><i></i><span><span class="en">Brand ad</span><span class="ar">إعلان</span></span><span class="dur">0:29</span></span></button>
+        <button class="thumb" data-video="media/pg_offer.mp4" data-title="Princess Gaza — Henna table offer"><img src="media/pg_offer.jpg" alt="Princess Gaza henna table offer — 100 shekel price reveal" loading="lazy"><span class="play"><i></i><span><span class="en">Offer ad</span><span class="ar">إعلان عرض</span></span><span class="dur">0:29</span></span></button>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Video ads · Event decoration business</span><span class="ar">إعلانات فيديو · شركة تزيين مناسبات</span></span>
+        <h3><span class="en">Princess Gaza — Henna Night</span><span class="ar">برنسيس غزة — ليلة الحنة</span></h3>
+        <p class="en">Two Instagram ads cut from 52 phone clips of a traditional henna-night setup: a brand ad and a price-offer ad (200 → 100 ₪) with an animated brand end card.</p>
+        <p class="ar">إعلانين لإنستغرام من 52 لقطة موبايل لكوشة حنة تراثية: إعلان للبراند، وإعلان عرض سعر (200 ← 100 شيكل)، ومعهم كارت ختام متحرك للبراند.</p>
+        <ul>
+          <li><span class="en">Beat-based edit list, speed ramps and digital camera moves on top of handheld footage</span><span class="ar">مونتاج مركّب على الإيقاع، مع speed ramps وحركات كاميرا على لقطات مصوّرة باليد</span></li>
+          <li><span class="en">Gold price-reveal graphics, item labels and a logo that launches the finale</span><span class="ar">جرافيك ذهبي لكشف السعر، وأسماء القطع، والشعار هو اللي بيفتح مشهد الختام</span></li>
+          <li><span class="en">Original oud-style score in maqam Hijaz plus synthesized sound effects — no licensed audio</span><span class="ar">موسيقى عود أصلية على مقام الحجاز ومؤثرات صوتية مولّدة، بدون أي صوت عليه حقوق</span></li>
+        </ul>
+        <div class="chips"><span>Remotion</span><span>React / TypeScript</span><span>FFmpeg</span><span>Python audio synthesis</span><span>Color &amp; type design</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/princess-gaza-ads" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Zero to Hero -->
+    <article class="project rv">
+      <div class="media">
+        <button class="thumb" data-video="media/zth.mp4" data-title="Zero to Hero — Course ad"><img src="media/zth.jpg" alt="Zero to Hero course ad with animated captions" loading="lazy"><span class="play"><i></i><span><span class="en">Reel</span><span class="ar">ريل</span></span><span class="dur">0:44</span></span></button>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Talking-head ad · Training course</span><span class="ar">إعلان متحدث · كورس تدريبي</span></span>
+        <h3><span class="en">Zero to Hero — Course Ad</span><span class="ar">زيرو تو هيرو — إعلان كورس</span></h3>
+        <p class="en">An Instagram reel for a programming &amp; marketing course, edited from 7 iPhone clips with word-by-word Arabic captions and UI motion graphics that pop up around the speaker.</p>
+        <p class="ar">ريل إنستغرام لكورس برمجة وتسويق، معمول من 7 لقطات آيفون، مع ترجمة عربية بتطلع كلمة كلمة، وجرافيك واجهات بيطلع حوالين المتحدث.</p>
+        <ul>
+          <li><span class="en">Transcribed the Arabic speech with Whisper (large-v3) and timed captions per word</span><span class="ar">فرّغت الكلام العربي بـ Whisper (large-v3) وزبطت توقيت الترجمة كلمة كلمة</span></li>
+          <li><span class="en">Cut the speaker out of the background so graphics can sit behind him</span><span class="ar">فصلت المتحدث عن الخلفية عشان يطلع الجرافيك من وراه</span></li>
+          <li><span class="en">Automated FFmpeg pipeline for cuts, punch-in zooms, audio cleanup and loudness</span><span class="ar">pipeline بـ FFmpeg بيعمل القص والزوم وتنظيف الصوت وضبط علوّه لحاله</span></li>
+        </ul>
+        <div class="chips"><span>Whisper</span><span>Python</span><span>FFmpeg</span><span>Remotion</span><span>Segmentation / matting</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/zero-to-hero-reel" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="process">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><span class="num">02 — <span class="en">HOW I WORK</span><span class="ar">طريقة الشغل</span></span>
+        <h2><span class="en">Video as code</span><span class="ar">الفيديو كأنه كود</span></h2></div>
+      <p><span class="en">Instead of a timeline that only I can open, every project is a small program: change a line, re-render, done.</span><span class="ar">بدل تايملاين ما حدا بيفتحه غيري، كل مشروع عبارة عن برنامج صغير: بتغيّر سطر، بتطلّع الفيديو من جديد، وخلص.</span></p>
+    </div>
+    <div class="steps">
+      <div class="step rv"><b>1</b><h3><span class="en">Script &amp; storyboard</span><span class="ar">النص والستوري بورد</span></h3><p><span class="en">From a brief, a PDF or raw footage to a scene-by-scene plan the client approves.</span><span class="ar">من البريف أو ملف PDF أو اللقطات الخام لخطة مشهد بمشهد بيوافق عليها العميل.</span></p></div>
+      <div class="step rv"><b>2</b><h3><span class="en">Build scenes</span><span class="ar">بناء المشاهد</span></h3><p><span class="en">React components in Remotion: typography, icons, transitions, brand colours as tokens.</span><span class="ar">مكوّنات React بـ Remotion: الخطوط، والأيقونات، والانتقالات، وألوان البراند بقيم ثابتة.</span></p></div>
+      <div class="step rv"><b>3</b><h3><span class="en">Sound</span><span class="ar">الصوت</span></h3><p><span class="en">Original music and SFX synthesized in Python, locked to the same timeline.</span><span class="ar">موسيقى ومؤثرات أصلية بـ Python، مربوطة بنفس التايملاين.</span></p></div>
+      <div class="step rv"><b>4</b><h3><span class="en">Deliver</span><span class="ar">التسليم</span></h3><p><span class="en">FFmpeg master: platform-ready H.264, −14 LUFS loudness, short cuts from the same project.</span><span class="ar">نسخة نهائية بـ FFmpeg: جاهزة لكل منصة، والصوت مضبوط على −14 LUFS، والنسخ القصيرة من نفس المشروع.</span></p></div>
+    </div>
+    <p class="note rv"><span class="en">I work with an AI-assisted workflow (Claude Code) for writing and reviewing code — the creative direction, decisions and delivery are mine.</span><span class="ar">بشتغل بمساعدة الذكاء الاصطناعي (Claude Code) بكتابة الكود ومراجعته، أما الرؤية الإبداعية والقرارات والتسليم فهي إلي.</span></p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div><span class="num">03 — <span class="en">TOOLKIT</span><span class="ar">الأدوات</span></span>
+        <h2><span class="en">Skills</span><span class="ar">المهارات</span></h2></div>
+    </div>
+    <div class="skills">
+      <div class="skill rv"><h3><i></i><span class="en">Motion &amp; video</span><span class="ar">موشن وفيديو</span></h3><div class="chips"><span>Remotion</span><span>Kinetic typography</span><span>SVG animation</span><span>Editing &amp; pacing</span><span>Arabic captions</span><span>9:16 social formats</span></div></div>
+      <div class="skill rv"><h3><i></i><span class="en">Development</span><span class="ar">برمجة</span></h3><div class="chips"><span>Python</span><span>React</span><span>TypeScript</span><span>Node.js</span><span>Git &amp; GitHub</span><span>REST APIs</span></div></div>
+      <div class="skill rv"><h3><i></i><span class="en">Media &amp; AI tooling</span><span class="ar">أدوات الميديا والذكاء الاصطناعي</span></h3><div class="chips"><span>FFmpeg</span><span>Whisper</span><span>NumPy audio</span><span>Image processing (PIL)</span><span>Claude Code</span></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap about">
+    <div class="rv">
+      <span class="num">04 — <span class="en">ABOUT</span><span class="ar">عني</span></span>
+      <h2 class="head" style="font-size:clamp(30px,4vw,44px);font-weight:800;margin-bottom:18px"><span class="en">Hi, I'm Suliman.</span><span class="ar">أهلاً، أنا سليمان.</span></h2>
+      <p class="en">I'm a developer from Gaza, Palestine, learning backend engineering with Python on the way to DevOps — and I use that same engineering mindset to make video. Clients get motion that's fast to revise, consistent with their brand, and fully original.</p>
+      <p class="ar">أنا مطوّر من غزة، فلسطين. بتعلّم Backend بـ Python وهدفي أوصل للـ DevOps، وبستعمل نفس التفكير البرمجي بصناعة الفيديو. العميل بياخد موشن بيتعدّل بسرعة، وماشي مع هوية البراند تبعه، وكله أصلي.</p>
+      <p class="en">I work in Arabic and English, and I'm used to delivering with limited power and internet — reliably.</p>
+      <p class="ar">بشتغل بالعربي والإنجليزي، ومتعوّد أسلّم بالوقت حتى مع قلة الكهربا والنت.</p>
+    </div>
+    <div class="contact rv">
+      <h3><span class="en">Let's work together</span><span class="ar">خلينا نشتغل سوا</span></h3>
+      <p><span class="en">Ads, explainers, social content or a developer who understands video — send me a message.</span><span class="ar">إعلانات، فيديوهات شرح، محتوى سوشال، أو مطوّر بيفهم بالفيديو، ابعتلي رسالة.</span></p>
+      <div class="cta">
+        <!-- CONTACT: add email / WhatsApp / LinkedIn links here before publishing -->
+        <a class="btn primary" href="https://github.com/suliman-hasanien" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Suliman Hasanien</span>
+    <span><span class="en">All music in these videos is original. Client work shown with permission.</span><span class="ar">كل الموسيقى بهاي الفيديوهات أصلية. أعمال العملاء معروضة بإذنهم.</span></span>
+  </div>
+</footer>
+
+<dialog id="player">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <video controls playsinline></video>
+  <div class="cap"></div>
+</dialog>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const setLang = (l) => { root.lang = l; root.dir = l === "ar" ? "rtl" : "ltr"; try { localStorage.setItem("lang", l); } catch (e) {} };
+  let saved = null; try { saved = localStorage.getItem("lang"); } catch (e) {}
+  if (saved === "ar" || saved === "en") setLang(saved);
+  document.getElementById("lang").addEventListener("click", () => setLang(root.lang === "ar" ? "en" : "ar"));
+
+  const dlg = document.getElementById("player"), vid = dlg.querySelector("video"), cap = dlg.querySelector(".cap");
+  document.querySelectorAll(".thumb").forEach((b) => b.addEventListener("click", () => {
+    vid.src = b.dataset.video; vid.poster = b.querySelector("img").src; cap.textContent = b.dataset.title;
+    dlg.showModal(); vid.play().catch(() => {});
+  }));
+  const close = () => { vid.pause(); vid.removeAttribute("src"); vid.load(); dlg.close(); };
+  dlg.querySelector(".close").addEventListener("click", close);
+  dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); });
+  dlg.addEventListener("cancel", (e) => { e.preventDefault(); close(); });
+
+  const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold: 0.12});
+  document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+})();
+</script>
+</body>
+</html>
