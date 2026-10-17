@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>سجل الديون</title>
+<style>
+  :root {
+    --green: #1D9E75; --green-light: #E1F5EE; --green-dark: #0F6E56;
+    --red: #E24B4A; --red-light: #FCEBEB;
+    --amber: #BA7517; --amber-light: #FAEEDA;
+    --gray-100: #f5f5f3; --gray-200: #e8e8e4; --gray-400: #9a9a95;
+    --gray-600: #5a5a56; --gray-900: #1c1c1a; --white: #ffffff;
+    --radius: 10px; --radius-sm: 6px; --shadow: 0 1px 4px rgba(0,0,0,0.07);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-100); color: var(--gray-900); min-height: 100vh; font-size: 15px; }
+
+  #setup-screen { min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1rem; }
+  .setup-card { background:var(--white); border-radius:16px; padding:2.5rem 2rem; max-width:480px; width:100%; box-shadow:0 4px 24px rgba(0,0,0,0.1); }
+  .setup-logo { font-size:40px; text-align:center; margin-bottom:1rem; }
+  .setup-card h1 { font-size:20px; font-weight:600; text-align:center; margin-bottom:.4rem; }
+  .setup-card > p { color:var(--gray-400); font-size:13px; text-align:center; margin-bottom:2rem; line-height:1.6; }
+  .step { background:var(--gray-100); border-radius:var(--radius); padding:1rem 1.25rem; margin-bottom:1rem; border-right:3px solid var(--green); }
+  .step-num { font-size:11px; font-weight:600; color:var(--green-dark); margin-bottom:4px; }
+  .step p { color:var(--gray-600); font-size:13px; line-height:1.7; text-align:right; margin:0; }
+  .step a { color:var(--green-dark); font-weight:500; }
+  .step code { background:var(--gray-200); padding:1px 6px; border-radius:4px; font-size:12px; font-family:monospace; direction:ltr; display:inline-block; }
+  .inp-group { margin-bottom:12px; }
+  .inp-group label { display:block; font-size:12px; color:var(--gray-600); margin-bottom:5px; font-weight:500; }
+  .inp-group textarea { width:100%; padding:9px 12px; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); font-size:11px; direction:ltr; font-family:monospace; background:var(--white); color:var(--gray-900); height:110px; resize:vertical; }
+  .inp-group textarea:focus { outline:none; border-color:var(--green); }
+  .btn-primary { width:100%; padding:11px; background:var(--green); color:white; border:none; border-radius:var(--radius-sm); font-size:15px; font-weight:600; cursor:pointer; margin-top:4px; }
+  .btn-primary:hover { background:var(--green-dark); }
+  .error-msg { color:var(--red); font-size:12px; margin-top:8px; display:none; text-align:center; }
+
+  #app { display:none; max-width:700px; margin:0 auto; padding:1rem; }
+  .topbar { background:var(--white); border-radius:var(--radius); padding:.75rem 1.25rem; display:flex; align-items:center; justify-content:space-between; margin-bottom:1rem; box-shadow:var(--shadow); }
+  .topbar h1 { font-size:16px; font-weight:600; }
+  .topbar-right { display:flex; align-items:center; gap:10px; }
+  .date-badge { font-size:12px; color:var(--gray-400); }
+  .btn-icon { background:none; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); padding:5px 10px; cursor:pointer; font-size:12px; color:var(--gray-600); }
+  .btn-icon:hover { border-color:var(--gray-400); }
+
+  .stats { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:1rem; }
+  .stat-card { background:var(--white); border-radius:var(--radius); padding:.85rem 1rem; box-shadow:var(--shadow); }
+  .stat-label { font-size:11px; color:var(--gray-400); margin-bottom:4px; font-weight:500; }
+  .stat-val { font-size:19px; font-weight:600; }
+  .stat-val.red { color:var(--red); } .stat-val.green { color:var(--green); } .stat-val.amber { color:var(--amber); }
+
+  .main-panel { background:var(--white); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; }
+  .tabs { display:flex; border-bottom:1.5px solid var(--gray-200); }
+  .tab-btn { flex:1; padding:11px; font-size:13px; font-weight:500; border:none; background:none; cursor:pointer; color:var(--gray-400); }
+  .tab-btn.active { color:var(--green-dark); border-bottom:2px solid var(--green); background:var(--green-light); }
+  .tab-content { padding:1.25rem; display:none; }
+  .tab-content.active { display:block; }
+
+  .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .form-grid.three { grid-template-columns:1fr 1fr 1fr; }
+  .fg { display:flex; flex-direction:column; gap:4px; }
+  .fg label { font-size:11px; color:var(--gray-600); font-weight:500; }
+  .fg input { padding:8px 10px; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); font-size:13px; background:var(--white); color:var(--gray-900); width:100%; }
+  .fg input:focus { outline:none; border-color:var(--green); }
+  .fg.full { grid-column:1/-1; }
+  .btn-submit { margin-top:14px; width:100%; padding:10px; background:var(--green); color:white; border:none; border-radius:var(--radius-sm); font-size:14px; font-weight:600; cursor:pointer; }
+  .btn-submit:hover { background:var(--green-dark); }
+  .btn-submit:disabled { background:var(--gray-200); color:var(--gray-400); cursor:not-allowed; }
+
+  .search-row { display:flex; gap:10px; margin-bottom:1rem; align-items:center; }
+  .search-row input { flex:1; padding:8px 12px; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); font-size:13px; background:var(--white); color:var(--gray-900); }
+  .search-row input:focus { outline:none; border-color:var(--green); }
+  .filter-btn { padding:7px 14px; font-size:12px; border:1.5px solid var(--gray-200); border-radius:var(--radius-sm); cursor:pointer; background:var(--white); color:var(--gray-600); white-space:nowrap; }
+  .filter-btn.on { background:var(--amber-light); border-color:var(--amber); color:var(--amber); }
+
+  .customer-item { border:1.5px solid var(--gray-200); border-radius:var(--radius); margin-bottom:.6rem; overflow:hidden; }
+  .customer-item:hover { box-shadow:0 2px 8px rgba(0,0,0,0.08); }
+  .cust-header { display:flex; align-items:center; justify-content:space-between; padding:.75rem 1rem; cursor:pointer; background:var(--white); gap:8px; }
+  .cust-name { font-weight:600; font-size:14px; display:flex; align-items:center; gap:7px; }
+  .cust-avatar { width:32px; height:32px; border-radius:50%; background:var(--green-light); color:var(--green-dark); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .cust-badges { display:flex; gap:6px; align-items:center; flex-wrap:wrap; justify-content:flex-end; }
+  .badge { font-size:11px; padding:3px 9px; border-radius:20px; font-weight:500; white-space:nowrap; }
+  .badge.red { background:var(--red-light); color:var(--red); }
+  .badge.green { background:var(--green-light); color:var(--green-dark); }
+  .cust-chevron { color:var(--gray-400); font-size:16px; transition:transform .2s; }
+  .cust-chevron.open { transform:rotate(180deg); }
+
+  .debts-table { display:none; border-top:1.5px solid var(--gray-200); }
+  .debts-table.open { display:block; }
+  .debt-row { display:grid; grid-template-columns:1.2fr 0.8fr 0.9fr 0.7fr auto; gap:6px; align-items:center; padding:8px 1rem; font-size:12px; border-bottom:1px solid var(--gray-100); background:var(--white); }
+  .debt-row:last-child { border-bottom:none; }
+  .debt-row.paid-row { background:#fafffe; }
+  .debt-amount { font-weight:600; font-size:13px; }
+  .debt-note { color:var(--gray-400); font-size:11px; margin-top:1px; }
+  .debt-date { color:var(--gray-600); }
+  .debt-paydate { color:var(--amber); font-weight:500; }
+  .debt-paydate.overdue { color:var(--red); }
+  .debt-paydate.ok { color:var(--green); }
+  .action-btns { display:flex; gap:4px; }
+  .btn-sm { padding:4px 8px; font-size:11px; border:1.5px solid var(--gray-200); border-radius:5px; cursor:pointer; background:var(--white); color:var(--gray-600); white-space:nowrap; }
+  .btn-sm:hover { background:var(--gray-100); }
+  .btn-sm.danger:hover { background:var(--red-light); border-color:var(--red); color:var(--red); }
+  .btn-sm.pay { border-color:var(--green); color:var(--green); }
+  .btn-sm.pay:hover { background:var(--green-light); }
+
+  .empty-state { text-align:center; padding:3rem 1rem; color:var(--gray-400); font-size:14px; }
+  .empty-state .icon { font-size:40px; margin-bottom:10px; }
+  .loading { text-align:center; padding:2.5rem; color:var(--gray-400); font-size:14px; }
+
+  .toast { position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%); background:var(--gray-900); color:white; padding:10px 20px; border-radius:20px; font-size:13px; z-index:999; opacity:0; transition:opacity .3s; pointer-events:none; }
+  .toast.show { opacity:1; }
+
+  @media (max-width:500px) {
+    .stats { grid-template-columns:1fr 1fr; }
+    .stats .stat-card:last-child { grid-column:1/-1; }
+    .form-grid { grid-template-columns:1fr; }
+    .form-grid.three { grid-template-columns:1fr 1fr; }
+    .debt-row { grid-template-columns:1fr 1fr auto; }
+    .debt-date,.debt-paydate { display:none; }
+  }
+</style>
+</head>
+<body>
+<div style="background:#1F7A4D;color:#fff;text-align:center;font:600 14px system-ui;padding:8px">نسخة تجريبية للبورتفوليو — البيانات وهمية ولا تُحفظ · Portfolio demo with sample data</div>
+
+<!-- SETUP SCREEN -->
+<div id="setup-screen">
+  <div class="setup-card">
+    <div class="setup-logo">🏪</div>
+    <h1>سجل الديون — إعداد أولي</h1>
+    <p>هذا الإعداد مرة واحدة بس، وبعدها البيانات بتتزامن تلقائياً على كل أجهزتك</p>
+    <div class="step"><div class="step-num">الخطوة 1</div><p>روح على <a href="https://console.firebase.google.com/" target="_blank">console.firebase.google.com</a> وسجّل دخول بحساب Google</p></div>
+    <div class="step"><div class="step-num">الخطوة 2</div><p>اضغط "Add project" ← سمّيه مثلاً <code>my-supermarket</code> ← اضغط Continue حتى ينتهي</p></div>
+    <div class="step"><div class="step-num">الخطوة 3</div><p>من القائمة الجانبية اختر <code>Firestore Database</code> ← Create database ← اختر <code>Start in test mode</code> ← Next ← Enable</p></div>
+    <div class="step"><div class="step-num">الخطوة 4</div><p>من أيقونة الترس ⚙️ ← Project Settings ← Your apps ← أيقونة <code>&lt;/&gt;</code> ← سجّل التطبيق ← انسخ الكود والصقه هون</p></div>
+    <div class="inp-group">
+      <label>الصق هنا كود Firebase Config (من firebaseConfig = { ... })</label>
+      <textarea id="firebase-config-raw" placeholder='const firebaseConfig = {
+  apiKey: "AIza...",
+  authDomain: "xxx.firebaseapp.com",
+  projectId: "xxx",
+  storageBucket: "xxx.appspot.com",
+  messagingSenderId: "123...",
+  appId: "1:123..."
+};'></textarea>
+    </div>
+    <button class="btn-primary" onclick="saveConfig()">حفظ والدخول للنظام ←</button>
+    <div class="error-msg" id="cfg-error">⚠️ الكود غلط أو ناقص، تأكد من نسخه كامل</div>
+  </div>
+</div>
+
+<!-- MAIN APP -->
+<div id="app">
+  <div class="topbar">
+    <h1>🏪 سجل الديون</h1>
+    <div class="topbar-right">
+      <span class="date-badge" id="today-lbl"></span>
+      <button class="btn-icon" onclick="resetConfig()">⚙️ إعادة ضبط</button>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat-card"><div class="stat-label">الزبائن</div><div class="stat-val amber" id="s-customers">—</div></div>
+    <div class="stat-card"><div class="stat-label">ديون معلقة</div><div class="stat-val red" id="s-total">—</div></div>
+    <div class="stat-card"><div class="stat-label">مبالغ مسددة</div><div class="stat-val green" id="s-paid">—</div></div>
+  </div>
+  <div class="main-panel">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="openTab('list',this)">📋 الزبائن والديون</button>
+      <button class="tab-btn" onclick="openTab('add',this)">➕ إضافة دين</button>
+    </div>
+    <div class="tab-content active" id="tab-list">
+      <div class="search-row">
+        <input type="text" id="search-q" placeholder="ابحث عن زبون..." oninput="renderList()">
+        <button class="filter-btn" id="filter-btn" onclick="toggleFilter()">معلق فقط</button>
+      </div>
+      <div id="list-container"><div class="loading">جاري التحميل...</div></div>
+    </div>
+    <div class="tab-content" id="tab-add">
+      <div class="form-grid">
+        <div class="fg"><label>اسم الزبون *</label><input type="text" id="f-name" list="names-list" placeholder="أبو محمد"><datalist id="names-list"></datalist></div>
+        <div class="fg"><label>المبلغ (₪) *</label><input type="number" id="f-amount" placeholder="0" min="0" step="0.5"></div>
+        <div class="fg"><label>تاريخ الدين *</label><input type="date" id="f-date"></div>
+        <div class="fg"><label>تاريخ السداد المتوقع</label><input type="date" id="f-paydate"></div>
+        <div class="fg full"><label>ملاحظة (اختياري)</label><input type="text" id="f-note" placeholder="مثال: دجاج + مواد نظافة"></div>
+      </div>
+      <button class="btn-submit" id="btn-add" onclick="addDebt()">✓ تسجيل الدين</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase compat (global scope — no import needed) -->
+<script>
+/* Portfolio demo: an in-memory stand-in for Firestore so the app runs without a Firebase project. Nothing is saved. */
+(function () {
+  var docs = {}, seq = 0, listeners = [];
+  function emit() { var snap = {docs: Object.keys(docs).map(function (id) { return {id: id, data: function () { return docs[id]; }}; })}; listeners.forEach(function (cb) { cb(snap); }); }
+  function d(n) { var x = new Date(); x.setDate(x.getDate() + n); return x.toISOString().split('T')[0]; }
+  [["أبو أحمد الشوا", 120, -20, -2, "بقالة"], ["أبو أحمد الشوا", 45.5, -6, 5, ""], ["محل الأمانة", 300, -30, 10, "بضاعة شهرية"],
+   ["أم خالد", 77, -12, -1, ""], ["أم خالد", 30, -40, -25, "", true], ["سامي النجار", 210, -3, 14, "دفعة أولى"], ["سامي النجار", 90, -50, -30, "", true]]
+   .forEach(function (r) { docs['d' + (++seq)] = {name: r[0], amount: r[1], date: d(r[2]), paydate: d(r[3]), note: r[4], paid: !!r[5]}; });
+  var col = {
+    onSnapshot: function (cb) { listeners.push(cb); setTimeout(emit, 0); return function () {}; },
+    add: function (o) { docs['d' + (++seq)] = o; emit(); return Promise.resolve(); },
+    doc: function (id) { return {update: function (o) { Object.assign(docs[id], o); emit(); return Promise.resolve(); }, delete: function () { delete docs[id]; emit(); return Promise.resolve(); }}; }
+  };
+  var fs = function () { return {collection: function () { return col; }}; };
+  fs.FieldValue = {serverTimestamp: function () { return null; }};
+  window.firebase = {apps: [], initializeApp: function () { this.apps.push(1); }, firestore: fs};
+})();
+</script>
+<script>
+var db, unsubscribe, allDebts = [], filterUnpaid = false;
+
+// ---- SETUP ----
+function saveConfig() {
+  var raw = document.getElementById('firebase-config-raw').value.trim();
+  var errEl = document.getElementById('cfg-error');
+  try {
+    var match = raw.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error('no object');
+    var jsonStr = match[0]
+      .replace(/\/\/.*$/gm, '')
+      .replace(/,\s*([\}\]])/g, '$1')
+      .replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)\s*:/g, '$1"$2":');
+    var cfg = JSON.parse(jsonStr);
+    if (!cfg.apiKey || !cfg.projectId) throw new Error('missing fields');
+    localStorage.setItem('fb_config', JSON.stringify(cfg));
+    errEl.style.display = 'none';
+    startApp(cfg);
+  } catch(e) {
+    errEl.style.display = 'block';
+  }
+}
+
+function resetConfig() {
+  if (confirm('هل تريد إعادة إعداد Firebase؟')) {
+    localStorage.removeItem('fb_config');
+    location.reload();
+  }
+}
+
+function startApp(cfg) {
+  if (!firebase.apps.length) firebase.initializeApp(cfg);
+  db = firebase.firestore();
+  document.getElementById('setup-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('today-lbl').textContent = new Date().toLocaleDateString('ar-PS', {year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('f-date').value = new Date().toISOString().split('T')[0];
+  listenDebts();
+}
+
+// ---- FIRESTORE ----
+function listenDebts() {
+  if (unsubscribe) unsubscribe();
+  unsubscribe = db.collection('debts').onSnapshot(function(snap) {
+    allDebts = snap.docs.map(function(d) { return Object.assign({id: d.id}, d.data()); });
+    updateStats();
+    renderList();
+    updateNamesList();
+  });
+}
+
+function addDebt() {
+  var name = document.getElementById('f-name').value.trim();
+  var amount = parseFloat(document.getElementById('f-amount').value);
+  var date = document.getElementById('f-date').value;
+  var paydate = document.getElementById('f-paydate').value;
+  var note = document.getElementById('f-note').value.trim();
+  if (!name || !amount || !date) { showToast('يرجى ملء الاسم والمبلغ والتاريخ'); return; }
+  var btn = document.getElementById('btn-add');
+  btn.disabled = true; btn.textContent = 'جاري الحفظ...';
+  db.collection('debts').add({
+    name: name, amount: amount, date: date,
+    paydate: paydate || '', note: note, paid: false,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+  }).then(function() {
+    document.getElementById('f-amount').value = '';
+    document.getElementById('f-note').value = '';
+    document.getElementById('f-paydate').value = '';
+    document.getElementById('f-name').value = '';
+    showToast('تم تسجيل الدين ✓');
+    openTab('list', document.querySelectorAll('.tab-btn')[0]);
+  }).catch(function() { showToast('خطأ في الحفظ'); })
+  .finally(function() { btn.disabled = false; btn.textContent = '✓ تسجيل الدين'; });
+}
+
+function markPaid(id, current) {
+  db.collection('debts').doc(id).update({ paid: !current });
+}
+
+function deleteDebt(id) {
+  if (!confirm('تأكيد الحذف؟')) return;
+  db.collection('debts').doc(id).delete().then(function() { showToast('تم الحذف'); });
+}
+
+// ---- UI ----
+function updateStats() {
+  var names = new Set(allDebts.map(function(d) { return d.name; }));
+  var unpaid = allDebts.filter(function(d){return !d.paid;}).reduce(function(s,d){return s+d.amount;},0);
+  var paid = allDebts.filter(function(d){return d.paid;}).reduce(function(s,d){return s+d.amount;},0);
+  document.getElementById('s-customers').textContent = names.size;
+  document.getElementById('s-total').textContent = unpaid.toFixed(2) + ' ₪';
+  document.getElementById('s-paid').textContent = paid.toFixed(2) + ' ₪';
+}
+
+function updateNamesList() {
+  var names = Array.from(new Set(allDebts.map(function(d){return d.name;})));
+  document.getElementById('names-list').innerHTML = names.map(function(n){return '<option value="'+n+'">';}).join('');
+}
+
+function renderList() {
+  var q = document.getElementById('search-q').value.trim().toLowerCase();
+  var container = document.getElementById('list-container');
+  var debts = allDebts.slice();
+  if (filterUnpaid) debts = debts.filter(function(d){return !d.paid;});
+  if (q) debts = debts.filter(function(d){return d.name.toLowerCase().includes(q);});
+
+  var byName = {};
+  debts.forEach(function(d) { if (!byName[d.name]) byName[d.name]=[]; byName[d.name].push(d); });
+  var names = Object.keys(byName);
+
+  if (!names.length) {
+    container.innerHTML = '<div class="empty-state"><div class="icon">🔍</div>لا يوجد نتائج</div>';
+    return;
+  }
+
+  var today = new Date().toISOString().split('T')[0];
+  container.innerHTML = names.map(function(name) {
+    var list = byName[name];
+    var unpaid = list.filter(function(d){return !d.paid;}).reduce(function(s,d){return s+d.amount;},0);
+    var paidAmt = list.filter(function(d){return d.paid;}).reduce(function(s,d){return s+d.amount;},0);
+    var initial = name.trim()[0] || '?';
+    var safeId = name.replace(/[^a-zA-Z0-9\u0600-\u06FF]/g,'_');
+
+    var rows = list.map(function(d) {
+      var pdClass = 'debt-paydate', pdTxt = '—';
+      if (d.paydate) {
+        pdTxt = d.paydate;
+        if (d.paid) pdClass += ' ok';
+        else if (d.paydate < today) pdClass += ' overdue';
+      }
+      return '<div class="debt-row '+(d.paid?'paid-row':'')+'">'+
+        '<div><div class="debt-amount">'+d.amount.toFixed(2)+' ₪</div>'+(d.note?'<div class="debt-note">'+d.note+'</div>':'')+'</div>'+
+        '<div class="debt-date">'+d.date+'</div>'+
+        '<div class="'+pdClass+'">'+pdTxt+'</div>'+
+        '<div><span class="badge '+(d.paid?'green':'red')+'">'+(d.paid?'مسدد':'معلق')+'</span></div>'+
+        '<div class="action-btns">'+
+          '<button class="btn-sm '+(d.paid?'':'pay')+'" onclick="markPaid(\''+d.id+'\','+d.paid+')">'+(d.paid?'تراجع':'سدّد')+'</button>'+
+          '<button class="btn-sm danger" onclick="deleteDebt(\''+d.id+'\')">🗑</button>'+
+        '</div></div>';
+    }).join('');
+
+    return '<div class="customer-item">'+
+      '<div class="cust-header" onclick="toggleCustomer(\''+safeId+'\')">'+
+        '<div class="cust-name"><div class="cust-avatar">'+initial+'</div>'+name+'</div>'+
+        '<div class="cust-badges">'+
+          (unpaid>0?'<span class="badge red">متبقي: '+unpaid.toFixed(2)+' ₪</span>':'')+
+          (paidAmt>0?'<span class="badge green">مسدد: '+paidAmt.toFixed(2)+' ₪</span>':'')+
+          '<span class="cust-chevron" id="chev-'+safeId+'">▾</span>'+
+        '</div>'+
+      '</div>'+
+      '<div class="debts-table" id="dt-'+safeId+'">'+rows+'</div>'+
+    '</div>';
+  }).join('');
+}
+
+function toggleCustomer(safeId) {
+  var dt = document.getElementById('dt-'+safeId);
+  var ch = document.getElementById('chev-'+safeId);
+  if (dt) dt.classList.toggle('open');
+  if (ch) ch.classList.toggle('open');
+}
+
+function toggleFilter() {
+  filterUnpaid = !filterUnpaid;
+  document.getElementById('filter-btn').classList.toggle('on', filterUnpaid);
+  renderList();
+}
+
+function openTab(tab, btn) {
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active');});
+  btn.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+
+function showToast(msg) {
+  var el = document.getElementById('toast');
+  el.textContent = msg; el.classList.add('show');
+  setTimeout(function(){ el.classList.remove('show'); }, 2500);
+}
+
+// ---- BOOT ----
+var saved = '{"apiKey":"demo","projectId":"demo"}';
+if (saved) {
+  try { startApp(JSON.parse(saved)); } catch(e) { localStorage.removeItem('fb_config'); }
+}
+</script>
+</body>
+</html>

@@ -98,6 +98,29 @@ section{padding:72px 0}
 .link{font-family:Alexandria;font-weight:700;font-size:15px;text-decoration:none;color:var(--accent);display:inline-flex;gap:8px;align-items:center}
 .link:hover{text-decoration:underline}
 
+
+/* filters */
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin:-8px 0 30px}
+.filters button{font:inherit;font-family:Alexandria;font-weight:700;font-size:14px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:99px;padding:9px 16px;cursor:pointer;transition:all .2s}
+.filters button i{font-style:normal;opacity:.6;margin-inline-start:4px}
+.filters button:hover{color:var(--text);border-color:var(--text)}
+.filters button.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.project.hide{display:none}
+.project.wide:nth-of-type(even){grid-template-columns:.8fr 1.2fr}
+.project.wide:nth-of-type(even) .gallery{order:2}
+
+/* screenshot projects */
+.project.wide{grid-template-columns:1.2fr .8fr}
+.gallery{display:flex;flex-direction:column;gap:10px;min-width:0}
+.shot{display:block;padding:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:zoom-in;background:#000}
+.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;transition:transform .5s}
+.shot:hover img{transform:scale(1.03)}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.strip .shot{border-radius:10px}
+.links{display:flex;flex-wrap:wrap;gap:18px}
+#lightbox{max-width:min(94vw,1280px)}
+#lightbox img{width:100%;max-height:86vh;object-fit:contain;border-radius:14px;display:block;background:#000}
+
 /* process */
 .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
 .step{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
@@ -139,6 +162,8 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
 @media (max-width:900px){
   .hero .wrap,.project,.about{grid-template-columns:1fr}
   .project:nth-child(even) .media{order:0}
+  .project.wide,.project.wide:nth-of-type(even){grid-template-columns:1fr}
+  .project.wide:nth-of-type(even) .gallery{order:0}
   .steps{grid-template-columns:1fr 1fr}
   .skills{grid-template-columns:1fr}
   .hero{padding-top:56px}
@@ -173,8 +198,8 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
       <span class="kicker"><b></b><span class="en">Available for freelance &amp; full-time · Gaza, Palestine</span><span class="ar">متاح للعمل الحر والدوام الكامل · غزة، فلسطين</span></span>
       <h1 class="en">Developer who builds <em>motion</em> with code.</h1>
       <h1 class="ar">مطوّر بيصنع <em>الموشن</em> بالكود.</h1>
-      <p class="lead en">I make motion graphics, social-media ads and explainer videos using React (Remotion), Python and FFmpeg — so every animation, caption and soundtrack is precise, editable and re-renderable in minutes.</p>
-      <p class="lead ar">بعمل موشن جرافيك وإعلانات سوشال ميديا وفيديوهات شرح باستخدام <bdi>React (Remotion)</bdi> و<bdi>Python</bdi> و<bdi>FFmpeg</bdi>، فكل حركة وكل ترجمة وكل موسيقى دقيقة، وبتنعدل وبتطلع من جديد بدقايق.</p>
+      <p class="lead en">I make motion graphics, social-media ads and explainer videos with React (Remotion), Python and FFmpeg — and I build the software behind businesses too: a POS &amp; accounting app, a Django back-office and web tools.</p>
+      <p class="lead ar">بعمل موشن جرافيك وإعلانات سوشال ميديا وفيديوهات شرح باستخدام <bdi>React (Remotion)</bdi> و<bdi>Python</bdi> و<bdi>FFmpeg</bdi>، وكمان ببني البرامج اللي بتشغّل المحلات والشركات: نظام نقطة بيع ومحاسبة، ونظام إدارة بـ Django، وأدوات ويب.</p>
       <div class="cta">
         <a class="btn primary" href="#work"><span class="en">See the work</span><span class="ar">شوف الأعمال</span></a>
         <a class="btn" href="https://github.com/suliman-hasanien" target="_blank" rel="noopener">
@@ -183,8 +208,9 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
         </a>
       </div>
       <div class="stats">
-        <div><b>5</b><span class="en">videos delivered</span><span class="ar">فيديوهات مسلّمة</span></div>
-        <div><b>3</b><span class="en">clients</span><span class="ar">عملاء</span></div>
+        <div><b>11</b><span class="en">projects</span><span class="ar">مشروع</span></div>
+        <div><b>7</b><span class="en">videos</span><span class="ar">فيديوهات</span></div>
+        <div><b>3</b><span class="en">apps &amp; systems</span><span class="ar">برامج وأنظمة</span></div>
         <div><b>100%</b><span class="en">original music</span><span class="ar">موسيقى أصلية</span></div>
       </div>
     </div>
@@ -199,11 +225,17 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
     <div class="sec-head rv">
       <div><span class="num">01 — <span class="en">SELECTED WORK</span><span class="ar">أعمال مختارة</span></span>
         <h2><span class="en">Projects</span><span class="ar">المشاريع</span></h2></div>
-      <p><span class="en">Vertical (9:16) videos for Instagram, TikTok and Facebook. Tap a video to play it with sound.</span><span class="ar">فيديوهات عمودية (9:16) لإنستغرام وتيك توك وفيسبوك. اكبس على أي فيديو عشان يشتغل بالصوت.</span></p>
+      <p><span class="en">Motion &amp; video, software I've built, and interactive design. Tap a video to play it with sound, or a screenshot to enlarge it.</span><span class="ar">موشن وفيديو، وبرامج بنيتها، وتصميم تفاعلي. اكبس على أي فيديو عشان يشتغل بالصوت، أو على أي صورة عشان تكبر.</span></p>
+    </div>
+    <div class="filters rv" role="tablist">
+      <button class="on" data-f="all"><span class="en">All</span><span class="ar">الكل</span> <i>11</i></button>
+      <button data-f="motion"><span class="en">Motion &amp; video</span><span class="ar">موشن وفيديو</span> <i>5</i></button>
+      <button data-f="dev"><span class="en">Development</span><span class="ar">برمجة</span> <i>4</i></button>
+      <button data-f="design"><span class="en">Design &amp; presentations</span><span class="ar">تصميم وعروض</span> <i>3</i></button>
     </div>
 
     <!-- Masar Jadid -->
-    <article class="project rv">
+    <article class="project rv" data-cat="motion">
       <div class="media">
         <button class="thumb" data-video="media/masar_full.mp4" data-title="Masar Jadid — Full vision (2:34)"><img src="media/masar_full.jpg" alt="Masar Jadid vision video — the four pillars scene" loading="lazy"><span class="play"><i></i><span><span class="en">Full</span><span class="ar">الكامل</span></span><span class="dur">2:34</span></span></button>
         <button class="thumb" data-video="media/masar_short.mp4" data-title="Masar Jadid — Short cut (0:41)"><img src="media/masar_short.jpg" alt="Masar Jadid short cut — logo reveal" loading="lazy"><span class="play"><i></i><span><span class="en">Short</span><span class="ar">المختصر</span></span><span class="dur">0:41</span></span></button>
@@ -224,7 +256,7 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
     </article>
 
     <!-- Princess Gaza -->
-    <article class="project rv">
+    <article class="project rv" data-cat="motion">
       <div class="media">
         <button class="thumb" data-video="media/pg_ad.mp4" data-title="Princess Gaza — Henna night ad"><img src="media/pg_ad.jpg" alt="Princess Gaza henna night ad" loading="lazy"><span class="play"><i></i><span><span class="en">Brand ad</span><span class="ar">إعلان</span></span><span class="dur">0:29</span></span></button>
         <button class="thumb" data-video="media/pg_offer.mp4" data-title="Princess Gaza — Henna table offer"><img src="media/pg_offer.jpg" alt="Princess Gaza henna table offer — 100 shekel price reveal" loading="lazy"><span class="play"><i></i><span><span class="en">Offer ad</span><span class="ar">إعلان عرض</span></span><span class="dur">0:29</span></span></button>
@@ -245,7 +277,7 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
     </article>
 
     <!-- Zero to Hero -->
-    <article class="project rv">
+    <article class="project rv" data-cat="motion">
       <div class="media">
         <button class="thumb" data-video="media/zth.mp4" data-title="Zero to Hero — Course ad"><img src="media/zth.jpg" alt="Zero to Hero course ad with animated captions" loading="lazy"><span class="play"><i></i><span><span class="en">Reel</span><span class="ar">ريل</span></span><span class="dur">0:44</span></span></button>
       </div>
@@ -261,6 +293,144 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
         </ul>
         <div class="chips"><span>Whisper</span><span>Python</span><span>FFmpeg</span><span>Remotion</span><span>Segmentation / matting</span></div>
         <a class="link" href="https://github.com/suliman-hasanien/zero-to-hero-reel" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Jard promo (new) -->
+    <article class="project rv" data-cat="motion">
+      <div class="media">
+        <button class="thumb" data-video="media/jard_promo.mp4" data-title="Jard — Product promo (0:41)"><img src="media/jard_promo.jpg" alt="Jard promo — point of sale scene" loading="lazy"><span class="play"><i></i><span><span class="en">Promo</span><span class="ar">برومو</span></span><span class="dur">0:41</span></span></button>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Product promo · Own product</span><span class="ar">برومو منتج · منتجي الخاص</span></span>
+        <h3><span class="en">Jard — Product Promo</span><span class="ar">جَرْد — فيديو ترويجي</span></h3>
+        <p class="en">A 41-second social promo for my own accounting app, built from real app screenshots: a "still using a notebook?" hook, the logo reveal, then one scene per feature.</p>
+        <p class="ar">فيديو ترويجي 41 ثانية لبرنامجي المحاسبي، معمول من صور حقيقية من البرنامج: بيبلّش بسؤال «لسّا بتحسب على الدفتر؟»، بعدين بيطلع الشعار، وبعدها مشهد لكل ميزة.</p>
+        <ul>
+          <li><span class="en">Screenshots in a 3D monitor frame with push-ins and gold spotlight boxes on the key numbers</span><span class="ar">صور البرنامج جوّا شاشة ثلاثية الأبعاد، مع زوم وإطار ذهبي بيبرز الأرقام المهمة</span></li>
+          <li><span class="en">Brand system taken from the app (navy, blue, gold) and a reusable slide/flash transition track</span><span class="ar">ألوان البراند مأخوذة من البرنامج نفسه (كحلي وأزرق وذهبي)، وانتقالات قابلة لإعادة الاستخدام</span></li>
+        </ul>
+        <div class="chips"><span>Remotion</span><span>React / TypeScript</span><span>Product marketing</span><span>Python audio</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/motion-lab" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Arabic Motion Kit (new) -->
+    <article class="project rv" data-cat="motion dev">
+      <div class="media">
+        <button class="thumb" data-video="media/motion_kit.mp4" data-title="Arabic Motion Kit — showcase (0:41)"><img src="media/motion_kit.jpg" alt="Arabic Motion Kit — offer badge template" loading="lazy"><span class="play"><i></i><span><span class="en">Showcase</span><span class="ar">العرض</span></span><span class="dur">0:41</span></span></button>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Open-source templates · Personal project</span><span class="ar">قوالب مفتوحة المصدر · مشروع شخصي</span></span>
+        <h3><span class="en">Arabic Motion Kit</span><span class="ar">عُدّة موشن عربية</span></h3>
+        <p class="en">Six reusable Arabic motion templates for Remotion: title card, lower third, stat counter, quote card, social CTA and offer badge. Each one is a single React component, and a brand is one theme object.</p>
+        <p class="ar">6 قوالب موشن عربية جاهزة لـ Remotion: عنوان، واسم ومسمى (lower third)، وعدّاد أرقام، واقتباس، وزر متابعة، وبادج عرض. كل قالب مكوّن React واحد، وبتغيّر البراند كله بسطر واحد.</p>
+        <div class="chips"><span>React components</span><span>TypeScript</span><span>Design tokens</span><span>RTL typography</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/motion-lab" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Jard app -->
+    <article class="project wide rv" data-cat="dev">
+      <div class="gallery">
+        <button class="shot main" data-img="media/work/jard-1.jpg"><img src="media/work/jard-1.jpg" alt="Jard home screen" loading="lazy"></button>
+        <div class="strip">
+          <button class="shot" data-img="media/work/jard-2.jpg"><img src="media/work/jard-2.jpg" alt="Point of sale" loading="lazy"></button>
+          <button class="shot" data-img="media/work/jard-3.jpg"><img src="media/work/jard-3.jpg" alt="Customer debts" loading="lazy"></button>
+          <button class="shot" data-img="media/work/jard-4.jpg"><img src="media/work/jard-4.jpg" alt="Invoice" loading="lazy"></button>
+          <button class="shot" data-img="media/work/jard-5.jpg"><img src="media/work/jard-5.jpg" alt="Stock count" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Desktop app · Own product (SMT Technologies)</span><span class="ar">برنامج سطح مكتب · منتجي (SMT Technologies)</span></span>
+        <h3><span class="en">Jard — Accounting &amp; Inventory</span><span class="ar">جَرْد — محاسبة ومخزون</span></h3>
+        <p class="en">A full Arabic point-of-sale, inventory and accounting system for shops, with licensing, a user guide and a product website.</p>
+        <p class="ar">نظام عربي كامل لنقطة البيع والمخزون والمحاسبة للمحلات، ومعه نظام تراخيص ودليل استخدام وموقع للمنتج.</p>
+        <ul>
+          <li><span class="en">POS with barcode scanning, multi-unit items (piece / carton), sales, purchases and returns</span><span class="ar">نقطة بيع بالباركود، والصنف بأكثر من وحدة (قطعة وكرتونة)، وفواتير بيع وشراء ومرتجعات</span></li>
+          <li><span class="en">Customer and supplier debts in ₪, $ and JD with ageing, statements and WhatsApp reminders</span><span class="ar">ديون الزباين والموردين بالشيكل والدولار والدينار، مع أعمار الديون وكشوفات الحساب وتذكير بالواتساب</span></li>
+          <li><span class="en">Works offline on SQLite, multi-device LAN mode, automatic backups and integrity checks after power cuts</span><span class="ar">بيشتغل بدون نت على SQLite، وبيربط أكثر من جهاز على الشبكة، وفيه نسخ احتياطي تلقائي وفحص سلامة البيانات بعد انقطاع الكهربا</span></li>
+        </ul>
+        <div class="chips"><span>Electron</span><span>React</span><span>TypeScript</span><span>SQLite</span><span>Vite</span></div>
+        <a class="link" href="https://suliman-hasanien.github.io/" target="_blank" rel="noopener"><span class="en">Product website →</span><span class="ar">موقع المنتج ←</span></a>
+      </div>
+    </article>
+
+    <!-- SMS campaigns -->
+    <article class="project wide rv" data-cat="dev">
+      <div class="gallery">
+        <button class="shot main" data-img="media/work/sms-3.jpg"><img src="media/work/sms-3.jpg" alt="Campaign preview with segment count and cost" loading="lazy"></button>
+        <div class="strip">
+          <button class="shot" data-img="media/work/sms-1.jpg"><img src="media/work/sms-1.jpg" alt="Dashboard" loading="lazy"></button>
+          <button class="shot" data-img="media/work/sms-2.jpg"><img src="media/work/sms-2.jpg" alt="Contacts" loading="lazy"></button>
+          <button class="shot" data-img="media/work/sms-4.jpg"><img src="media/work/sms-4.jpg" alt="Audit log" loading="lazy"></button>
+        </div>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Backend · Django</span><span class="ar">باك إند · Django</span></span>
+        <h3><span class="en">SMS Campaigns for a Training Centre</span><span class="ar">نظام رسائل جماعية لمركز تدريب</span></h3>
+        <p class="en">A back-office to plan lecture reminders and marketing SMS: contacts, groups, Excel import, consent rules, cost preview, roles and an audit log, with 35 automated tests.</p>
+        <p class="ar">نظام لتجهيز رسائل تذكير المحاضرات والرسائل التسويقية: جهات اتصال، ومجموعات، واستيراد من Excel، وقواعد موافقة، وتقدير التكلفة، وصلاحيات، وسجل عمليات، ومعه 35 اختبار آلي.</p>
+        <div class="chips"><span>Python</span><span>Django 5</span><span>SQLite</span><span>openpyxl</span><span>Testing</span></div>
+        <a class="link" href="https://github.com/suliman-hasanien/sms-campaigns-django" target="_blank" rel="noopener"><span class="en">View the code →</span><span class="ar">شوف الكود ←</span></a>
+      </div>
+    </article>
+
+    <!-- Debt tracker -->
+    <article class="project wide rv" data-cat="dev">
+      <div class="gallery"><button class="shot main" data-img="media/work/debt.jpg"><img src="media/work/debt.jpg" alt="Debt tracker" loading="lazy"></button></div>
+      <div class="info">
+        <span class="tag"><span class="en">Web app · Firebase</span><span class="ar">تطبيق ويب · Firebase</span></span>
+        <h3><span class="en">Debt Book</span><span class="ar">سجل الديون</span></h3>
+        <p class="en">A one-file web app that replaces a shop's paper debt book: debts per customer, paid / unpaid, due dates, search, synced live across devices through Firestore.</p>
+        <p class="ar">تطبيق ويب بملف واحد بديل لدفتر الديون الورقي بالمحل: ديون كل زبون، والمسدَّد والمعلَّق، ومواعيد السداد، وبحث، ومزامنة مباشرة بين الأجهزة عن طريق Firestore.</p>
+        <div class="chips"><span>JavaScript</span><span>Firebase Firestore</span><span>Realtime sync</span></div>
+        <a class="link" href="work/debt-tracker/" target="_blank"><span class="en">Try the live demo →</span><span class="ar">جرّبه مباشرة ←</span></a>
+      </div>
+    </article>
+
+    <!-- Second Life -->
+    <article class="project wide rv" data-cat="design">
+      <div class="gallery">
+        <button class="shot main" data-img="media/work/sl.jpg"><img src="media/work/sl.jpg" alt="Second Life presentation" loading="lazy"></button>
+        <div class="strip"><button class="shot" data-img="media/work/slcat.jpg"><img src="media/work/slcat.jpg" alt="Second Life 3D catalogue" loading="lazy"></button></div>
+      </div>
+      <div class="info">
+        <span class="tag"><span class="en">Interactive presentation · 3D</span><span class="ar">عرض تفاعلي · ثلاثي الأبعاد</span></span>
+        <h3><span class="en">Second Life — Upcycling Project</span><span class="ar">الحياة الثانية — مشروع إعادة تدوير</span></h3>
+        <p class="en">A 26-slide web presentation for a furniture-upcycling project, plus a 3D product catalogue you can rotate (three.js) with concept pieces made from reclaimed materials.</p>
+        <p class="ar">عرض تقديمي على الويب من 26 شريحة لمشروع إعادة تدوير أثاث، ومعه كتالوج منتجات ثلاثي الأبعاد بتقدر تلفّه (three.js)، فيه قطع مقترحة من مواد مستعملة.</p>
+        <div class="chips"><span>HTML / CSS / JS</span><span>three.js</span><span>Presentation design</span></div>
+        <div class="links">
+          <a class="link" href="work/second-life/" target="_blank"><span class="en">Open the presentation →</span><span class="ar">افتح العرض ←</span></a>
+          <a class="link" href="work/second-life/catalog.html" target="_blank"><span class="en">3D catalogue →</span><span class="ar">الكتالوج ثلاثي الأبعاد ←</span></a>
+        </div>
+      </div>
+    </article>
+
+    <!-- Football -->
+    <article class="project wide rv" data-cat="design">
+      <div class="gallery"><button class="shot main" data-img="media/work/football.jpg"><img src="media/work/football.jpg" alt="Football: more than a game" loading="lazy"></button></div>
+      <div class="info">
+        <span class="tag"><span class="en">Interactive presentation</span><span class="ar">عرض تفاعلي</span></span>
+        <h3><span class="en">Football: More Than a Game</span><span class="ar">كرة القدم.. أكثر من لعبة</span></h3>
+        <p class="en">A talk designed as a 90-minute match: a live match clock, a pitch layout and slides that show how a single game brings together many fields of study.</p>
+        <p class="ar">محاضرة مصمَّمة كأنها مباراة 90 دقيقة: ساعة مباراة شغّالة، وتصميم ملعب، وشرائح بتوضّح كيف مباراة وحدة بتجمع تخصصات كتير.</p>
+        <div class="chips"><span>HTML / CSS / JS</span><span>Storytelling</span><span>Keyboard navigation</span></div>
+        <a class="link" href="work/football/" target="_blank"><span class="en">Open the presentation →</span><span class="ar">افتح العرض ←</span></a>
+      </div>
+    </article>
+
+    <!-- Sufra -->
+    <article class="project wide rv" data-cat="design">
+      <div class="gallery"><button class="shot main" data-img="media/work/sufra.jpg"><img src="media/work/sufra.jpg" alt="Sufra food delivery app screens" loading="lazy"></button></div>
+      <div class="info">
+        <span class="tag"><span class="en">UI design · Mobile app</span><span class="ar">تصميم واجهات · تطبيق موبايل</span></span>
+        <h3><span class="en">Sufra — Food Delivery App</span><span class="ar">سُفرة — تطبيق توصيل أكل</span></h3>
+        <p class="en">An Arabic-first food-delivery concept: home feed with offers, a dish page with add-ons, and live order tracking, built as clickable HTML screens.</p>
+        <p class="ar">فكرة تطبيق توصيل أكل مصمّم للعربي من الأساس: صفحة رئيسية فيها عروض، وصفحة الطبق مع الإضافات، وتتبّع الطلب لحظة بلحظة، وكلها شاشات HTML بتنكبس.</p>
+        <div class="chips"><span>UI / UX</span><span>Mobile-first</span><span>HTML / CSS</span></div>
+        <a class="link" href="work/sufra/" target="_blank"><span class="en">Open the prototype →</span><span class="ar">افتح النموذج ←</span></a>
       </div>
     </article>
   </div>
@@ -291,8 +461,8 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
     </div>
     <div class="skills">
       <div class="skill rv"><h3><i></i><span class="en">Motion &amp; video</span><span class="ar">موشن وفيديو</span></h3><div class="chips"><span>Remotion</span><span>Kinetic typography</span><span>SVG animation</span><span>Editing &amp; pacing</span><span>Arabic captions</span><span>9:16 social formats</span></div></div>
-      <div class="skill rv"><h3><i></i><span class="en">Development</span><span class="ar">برمجة</span></h3><div class="chips"><span>Python</span><span>React</span><span>TypeScript</span><span>Node.js</span><span>Git &amp; GitHub</span><span>REST APIs</span></div></div>
-      <div class="skill rv"><h3><i></i><span class="en">Media &amp; AI tooling</span><span class="ar">أدوات الميديا والذكاء الاصطناعي</span></h3><div class="chips"><span>FFmpeg</span><span>Whisper</span><span>NumPy audio</span><span>Image processing (PIL)</span><span>Claude Code</span></div></div>
+      <div class="skill rv"><h3><i></i><span class="en">Development</span><span class="ar">برمجة</span></h3><div class="chips"><span>Python</span><span>Django</span><span>React</span><span>TypeScript</span><span>Electron</span><span>SQLite</span><span>Firebase</span><span>Node.js</span><span>Git &amp; GitHub</span></div></div>
+      <div class="skill rv"><h3><i></i><span class="en">Media &amp; AI tooling</span><span class="ar">أدوات الميديا والذكاء الاصطناعي</span></h3><div class="chips"><span>FFmpeg</span><span>Whisper</span><span>NumPy audio</span><span>Image processing (PIL)</span><span>three.js</span><span>UI / UX</span><span>Claude Code</span></div></div>
     </div>
   </div>
 </section>
@@ -325,6 +495,11 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
   </div>
 </footer>
 
+<dialog id="lightbox">
+  <button class="close" type="button" aria-label="Close">×</button>
+  <img alt="">
+</dialog>
+
 <dialog id="player">
   <button class="close" type="button" aria-label="Close">×</button>
   <video controls playsinline></video>
@@ -348,6 +523,23 @@ dialog .cap{color:var(--muted);text-align:center;margin-top:12px;font-size:14px}
   dlg.querySelector(".close").addEventListener("click", close);
   dlg.addEventListener("click", (e) => { if (e.target === dlg) close(); });
   dlg.addEventListener("cancel", (e) => { e.preventDefault(); close(); });
+
+  const lb = document.getElementById("lightbox"), lbImg = lb.querySelector("img");
+  document.querySelectorAll(".shot").forEach((b) => b.addEventListener("click", () => {
+    lbImg.src = b.dataset.img; lbImg.alt = b.querySelector("img").alt; lb.showModal();
+  }));
+  lb.querySelector(".close").addEventListener("click", () => lb.close());
+  lb.addEventListener("click", (e) => { if (e.target === lb || e.target === lbImg) lb.close(); });
+
+  document.querySelectorAll(".filters button").forEach((b) => b.addEventListener("click", () => {
+    document.querySelectorAll(".filters button").forEach((x) => x.classList.toggle("on", x === b));
+    const f = b.dataset.f;
+    document.querySelectorAll("#work .project").forEach((p) => {
+      const show = f === "all" || (p.dataset.cat || "").split(" ").includes(f);
+      p.classList.toggle("hide", !show);
+      if (show) p.classList.add("in");
+    });
+  }));
 
   const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), {threshold: 0.12});
   document.querySelectorAll(".rv").forEach((el) => io.observe(el));

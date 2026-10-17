@@ -1,0 +1,806 @@
+<meta charset="utf-8">
+<title>كتالوج الحياة الثانية</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@400..700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&display=swap">
+<style>
+  :root{
+    --bg:#ECEFE6;
+    --surface:#F8F9F3;
+    --surface-2:#E2E6D8;
+    --text:#22261C;
+    --text-muted:#5C6152;
+    --border:#CFD4C0;
+    --accent:#4A5D3A;
+    --accent-soft:#DCE6CC;
+    --accent-2:#A56A45;
+    --concrete:#8F9186;
+    --wood:#8B5A3C;
+    --metal:#767C82;
+    --plastic:#2F7B70;
+    --rope:#AD8A54;
+    --shadow:rgba(34,38,28,.14);
+    --radius-lg:20px;
+    --radius-md:12px;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14160F; --surface:#1C1F15; --surface-2:#262A1B;
+      --text:#EDEFE3; --text-muted:#A6AB96; --border:#363B29;
+      --accent:#8FB06B; --accent-soft:#2B331F; --accent-2:#CE8E5E;
+      --concrete:#AEB0A2; --wood:#B47C52; --metal:#9BA1A6;
+      --plastic:#54AE9F; --rope:#D2A968; --shadow:rgba(0,0,0,.5);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14160F; --surface:#1C1F15; --surface-2:#262A1B;
+    --text:#EDEFE3; --text-muted:#A6AB96; --border:#363B29;
+    --accent:#8FB06B; --accent-soft:#2B331F; --accent-2:#CE8E5E;
+    --concrete:#AEB0A2; --wood:#B47C52; --metal:#9BA1A6;
+    --plastic:#54AE9F; --rope:#D2A968; --shadow:rgba(0,0,0,.5);
+  }
+
+  *{box-sizing:border-box;}
+  .sl-app{
+    direction:rtl; text-align:right;
+    background:var(--bg); color:var(--text);
+    font-family:'IBM Plex Sans Arabic','Segoe UI',Tahoma,Arial,sans-serif;
+    min-height:100vh; padding:28px 20px 40px;
+    display:flex; flex-direction:column; align-items:center; gap:18px;
+  }
+  .sl-shell{ width:100%; max-width:1240px; display:flex; flex-direction:column; gap:16px; }
+
+  .sl-header{ display:flex; flex-direction:column; gap:4px; }
+  .sl-eyebrow{ font-size:12.5px; letter-spacing:.06em; color:var(--accent); font-weight:600; display:flex; align-items:center; gap:8px; }
+  .sl-eyebrow::before{ content:"♻"; font-size:15px; }
+  .sl-title{ font-family:'Reem Kufi','IBM Plex Sans Arabic',sans-serif; font-size:clamp(28px,4vw,40px); font-weight:700; margin:2px 0 0; text-wrap:balance; }
+  .sl-sub{ color:var(--text-muted); font-size:15px; max-width:66ch; line-height:1.6; }
+
+  .sl-banner{
+    background:var(--accent-soft); border:1px solid var(--border); border-radius:var(--radius-md);
+    padding:12px 16px; display:flex; align-items:center; gap:10px; font-size:14px; color:var(--text);
+  }
+  .sl-banner strong{ color:var(--accent); font-weight:700; }
+
+  .sl-grid{ display:grid; grid-template-columns: 300px 1fr; gap:16px; align-items:start; }
+  @media (max-width: 820px){ .sl-grid{ grid-template-columns: 1fr; } }
+
+  .sl-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+  .sl-chip{
+    padding:7px 13px; border-radius:999px; border:1px solid var(--border);
+    background:var(--surface); color:var(--text-muted); font-size:12.5px;
+    cursor:pointer; display:flex; align-items:center; gap:6px; font-family:inherit;
+  }
+  .sl-chip:hover{ background:var(--surface-2); }
+  .sl-chip.active{ background:var(--accent-soft); border-color:var(--accent); color:var(--text); font-weight:600; }
+  .sl-chip-dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+
+  .sl-catalog{
+    display:flex; flex-direction:column; gap:6px;
+    background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+    padding:10px; max-height:min(54vh,520px); overflow-y:auto;
+  }
+  .sl-card{
+    display:flex; align-items:center; gap:10px; padding:9px 10px; border-radius:var(--radius-md);
+    border:1px solid transparent; background:transparent; cursor:pointer; text-align:right;
+    font-family:inherit; color:var(--text); transition:background .15s ease, border-color .15s ease; width:100%;
+  }
+  .sl-card:hover{ background:var(--surface-2); }
+  .sl-card.active{ background:var(--accent-soft); border-color:var(--accent); }
+  .sl-card[hidden]{ display:none; }
+  .sl-card-icon{
+    width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+    font-size:15px; flex:none; background:var(--surface-2);
+  }
+  .sl-card-text{ display:flex; flex-direction:column; gap:1px; min-width:0; }
+  .sl-card-name{ font-size:13.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .sl-card-tag{ font-size:11.5px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+
+  .sl-stage-wrap{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); overflow:hidden; position:relative; }
+  .sl-stage{ width:100%; height:min(54vh,520px); min-height:340px; display:block; touch-action:none; cursor:grab; }
+  .sl-stage:active{ cursor:grabbing; }
+  .sl-stage-badge{
+    position:absolute; top:14px; inset-inline-start:14px; background:var(--surface); border:1px solid var(--border);
+    color:var(--text-muted); font-size:12.5px; padding:6px 12px; border-radius:999px;
+    display:flex; align-items:center; gap:6px; box-shadow:0 6px 16px var(--shadow);
+  }
+  .sl-stage-hint{
+    position:absolute; bottom:12px; inset-inline-end:14px; font-size:12px; color:var(--text-muted);
+    background:var(--surface); border:1px solid var(--border); padding:5px 10px; border-radius:999px; opacity:.85;
+  }
+
+  .sl-detail{ background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg); padding:20px 22px; display:flex; flex-direction:column; gap:14px; }
+  .sl-detail-head{ display:flex; justify-content:space-between; align-items:flex-start; gap:12px; flex-wrap:wrap; }
+  .sl-detail-name{ font-family:'Reem Kufi',sans-serif; font-size:24px; font-weight:700; }
+  .sl-detail-meta{ display:flex; align-items:center; gap:8px; margin-top:4px; flex-wrap:wrap; }
+  .sl-detail-tag{ color:var(--accent-2); font-size:13.5px; font-weight:600; }
+  .sl-cat-badge{
+    font-size:11.5px; color:var(--text-muted); background:var(--surface-2); border:1px solid var(--border);
+    padding:3px 10px; border-radius:999px; display:flex; align-items:center; gap:5px;
+  }
+  .sl-detail-note{ font-size:12.5px; color:var(--text-muted); border:1px dashed var(--border); border-radius:999px; padding:6px 12px; white-space:nowrap; }
+  .sl-rationale{ font-size:14.5px; line-height:1.75; color:var(--text); max-width:72ch; }
+
+  .sl-comp{ display:flex; flex-direction:column; gap:8px; }
+  .sl-comp-label{ font-size:12.5px; color:var(--text-muted); letter-spacing:.03em; }
+  .sl-comp-bar{ display:flex; width:100%; height:14px; border-radius:999px; overflow:hidden; border:1px solid var(--border); }
+  .sl-comp-seg{ height:100%; }
+  .sl-legend{ display:flex; flex-wrap:wrap; gap:14px 20px; }
+  .sl-legend-item{ display:flex; align-items:center; gap:7px; font-size:13px; font-variant-numeric:tabular-nums; }
+  .sl-legend-dot{ width:10px; height:10px; border-radius:3px; flex:none; }
+
+  .sl-footer{ font-size:12px; color:var(--text-muted); text-align:center; max-width:680px; }
+</style>
+
+<div class="sl-app">
+  <div class="sl-shell">
+    <div class="sl-header">
+      <span class="sl-eyebrow">Second Life · كتالوج نماذج أولية</span>
+      <h1 class="sl-title">كتالوج الحياة الثانية</h1>
+      <p class="sl-sub">ثمانية عشر تصميم منتج ثلاثي الأبعاد من مواد مسترجعة — خشب، معدن، أنقاض، ونسيج — قابلة للدوران والفحص من كل الزوايا.</p>
+    </div>
+
+    <div class="sl-banner">
+      <span>🧩</span>
+      <span><strong>هذه تصاميم ثلاثية الأبعاد أولية</strong> — جاهزة للعرض على اللجنة، وبانتظار الدعم للانتقال إلى التصنيع الفعلي (MVP).</span>
+    </div>
+
+    <div class="sl-grid">
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div class="sl-chips" id="slChips"></div>
+        <div class="sl-catalog" id="slCatalog"></div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <div class="sl-stage-wrap">
+          <canvas class="sl-stage" id="slCanvas"></canvas>
+          <div class="sl-stage-badge">🎨 تصميم مفاهيمي — 3D</div>
+          <div class="sl-stage-hint">اسحب للتدوير</div>
+        </div>
+
+        <div class="sl-detail">
+          <div class="sl-detail-head">
+            <div>
+              <div class="sl-detail-name" id="slName"></div>
+              <div class="sl-detail-meta">
+                <span class="sl-detail-tag" id="slTag"></span>
+                <span class="sl-cat-badge" id="slCatBadge"></span>
+              </div>
+            </div>
+            <div class="sl-detail-note">بانتظار التمويل للتصنيع</div>
+          </div>
+          <p class="sl-rationale" id="slRationale"></p>
+          <div class="sl-comp">
+            <div class="sl-comp-label">التركيب المادي التقديري</div>
+            <div class="sl-comp-bar" id="slBar"></div>
+            <div class="sl-legend" id="slLegend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p class="sl-footer">النسب المئوية تقديرات تصميمية أولية لتوضيح فكرة الاستخدام، وتُحدَّث بعد اختبار النموذج الفعلي.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  function getVar(name){
+    return getComputedStyle(document.querySelector('.sl-app')).getPropertyValue(name).trim() || '#888888';
+  }
+  var MATERIAL_COLORS = {
+    concrete: getVar('--concrete'), wood: getVar('--wood'), metal: getVar('--metal'),
+    plastic: getVar('--plastic'), rope: getVar('--rope')
+  };
+  var CATEGORY_META = {
+    'خشب': { icon:'🪵', colorVar:'--wood' },
+    'معدن': { icon:'⚙️', colorVar:'--metal' },
+    'قماش': { icon:'🧵', colorVar:'--rope' },
+    'مختلط': { icon:'🧩', colorVar:'--accent-2' }
+  };
+
+  // ---------- texture helpers ----------
+  function makeConcreteTexture(){
+    var c = document.createElement('canvas'); c.width = c.height = 256;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#9a988f'; ctx.fillRect(0,0,256,256);
+    for (var i=0;i<900;i++){
+      var x = Math.random()*256, y = Math.random()*256, r = 1+Math.random()*3.2;
+      var shade = 130 + Math.random()*90;
+      ctx.fillStyle = 'rgba(' + shade + ',' + (shade-4) + ',' + (shade-10) + ',' + (0.5+Math.random()*0.4) + ')';
+      ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill();
+    }
+    for (var j=0;j<40;j++){
+      var xx = Math.random()*256, yy = Math.random()*256, rr = 3+Math.random()*6;
+      ctx.fillStyle = 'rgba(70,68,60,0.25)';
+      ctx.beginPath(); ctx.arc(xx,yy,rr,0,Math.PI*2); ctx.fill();
+    }
+    var tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(2,2);
+    return tex;
+  }
+  function makeWoodTexture(){
+    var c = document.createElement('canvas'); c.width = 256; c.height = 256;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#8a5a3a'; ctx.fillRect(0,0,256,256);
+    for (var i=0;i<26;i++){
+      var y = i*10 + Math.random()*4;
+      ctx.strokeStyle = 'rgba(50,28,14,' + (0.12+Math.random()*0.18) + ')';
+      ctx.lineWidth = 1+Math.random()*2;
+      ctx.beginPath(); ctx.moveTo(0,y);
+      for (var x=0;x<=256;x+=16){ ctx.lineTo(x, y + Math.sin(x*0.05+i)*3); }
+      ctx.stroke();
+    }
+    var tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(1,2);
+    return tex;
+  }
+  function makeWeaveTexture(){
+    var c = document.createElement('canvas'); c.width = c.height = 128;
+    var ctx = c.getContext('2d');
+    ctx.fillStyle = '#c9c9c2'; ctx.fillRect(0,0,128,128);
+    ctx.strokeStyle = 'rgba(90,90,80,0.35)'; ctx.lineWidth = 2;
+    for (var i=0;i<128;i+=8){
+      ctx.beginPath(); ctx.moveTo(0,i); ctx.lineTo(128,i); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(i,0); ctx.lineTo(i,128); ctx.stroke();
+    }
+    var tex = new THREE.CanvasTexture(c);
+    tex.wrapS = tex.wrapT = THREE.RepeatWrapping; tex.repeat.set(3,3);
+    return tex;
+  }
+  function makeShadowTexture(){
+    var c = document.createElement('canvas'); c.width = c.height = 256;
+    var ctx = c.getContext('2d');
+    var g = ctx.createRadialGradient(128,128,10,128,128,128);
+    g.addColorStop(0,'rgba(0,0,0,0.38)'); g.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle = g; ctx.fillRect(0,0,256,256);
+    return new THREE.CanvasTexture(c);
+  }
+  function makeSkyTexture(){
+    var c = document.createElement('canvas'); c.width = 8; c.height = 256;
+    var ctx = c.getContext('2d');
+    var g = ctx.createLinearGradient(0,0,0,256);
+    g.addColorStop(0, '#e9ece0'); g.addColorStop(0.55, '#dfe3d3'); g.addColorStop(1, '#c9cdb8');
+    ctx.fillStyle = g; ctx.fillRect(0,0,8,256);
+    return new THREE.CanvasTexture(c);
+  }
+
+  // ---------- materials ----------
+  var weaveTex = makeWeaveTexture();
+  var mats = {
+    concrete: new THREE.MeshStandardMaterial({ map: makeConcreteTexture(), roughness:0.92, metalness:0.04 }),
+    concreteDark: new THREE.MeshStandardMaterial({ color:0x6f7268, roughness:0.95, metalness:0.02 }),
+    wood: new THREE.MeshStandardMaterial({ map: makeWoodTexture(), roughness:0.78, metalness:0.02 }),
+    metal: new THREE.MeshStandardMaterial({ color:0x8b9096, roughness:0.32, metalness:0.8 }),
+    metalDark: new THREE.MeshStandardMaterial({ color:0x4a4d47, roughness:0.4, metalness:0.7 }),
+    rope: new THREE.MeshStandardMaterial({ color:0xcbb079, roughness:0.9, metalness:0.0 }),
+    plastic: new THREE.MeshPhysicalMaterial({ color:0x2f8f81, transparent:true, opacity:0.55, roughness:0.25, metalness:0, transmission:0.25, side:THREE.DoubleSide }),
+    bulb: new THREE.MeshStandardMaterial({ color:0xfff3c4, emissive:0xffdca0, emissiveIntensity:1.3 }),
+    fabricSofa: new THREE.MeshStandardMaterial({ map: weaveTex, color:0xB5734A, roughness:0.88 }),
+    fabricPouf: new THREE.MeshStandardMaterial({ map: weaveTex, color:0x5C7A52, roughness:0.88 }),
+    fabricBasket: new THREE.MeshStandardMaterial({ map: weaveTex, color:0xC7A874, roughness:0.9, side:THREE.DoubleSide }),
+    mirror: new THREE.MeshStandardMaterial({ color:0xdfe6e2, roughness:0.08, metalness:0.9 })
+  };
+
+  // ---------- geometry helpers ----------
+  function addBox(parent, dims, mat, pos, rot){
+    var m = new THREE.Mesh(new THREE.BoxGeometry(dims[0],dims[1],dims[2]), mat);
+    m.position.set(pos[0],pos[1],pos[2]);
+    if (rot){ m.rotation.x = rot[0]||0; m.rotation.y = rot[1]||0; m.rotation.z = rot[2]||0; }
+    parent.add(m); return m;
+  }
+  function addCyl(parent, rt, rb, h, segs, mat, pos, rot){
+    var m = new THREE.Mesh(new THREE.CylinderGeometry(rt,rb,h,segs), mat);
+    m.position.set(pos[0],pos[1],pos[2]);
+    if (rot){ m.rotation.x = rot[0]||0; m.rotation.y = rot[1]||0; m.rotation.z = rot[2]||0; }
+    parent.add(m); return m;
+  }
+  function addLegs(parent, corners, r, h, mat, footMat){
+    corners.forEach(function(p){
+      addCyl(parent, r, r*1.15, h, 10, mat, [p[0], h/2, p[1]]);
+      if (footMat) addCyl(parent, r*1.3, r*1.3, 0.025, 10, footMat, [p[0], 0.0125, p[1]]);
+    });
+  }
+  function addHairpinLeg(parent, x, z, h, mat, spread){
+    spread = spread || 0.09;
+    var top = new THREE.Vector3(x,h,z);
+    [[x-spread,0,z],[x+spread,0,z]].forEach(function(b){
+      var base = new THREE.Vector3(b[0],b[1],b[2]);
+      var len = base.distanceTo(top);
+      var mid = base.clone().add(top).multiplyScalar(0.5);
+      var dir = top.clone().sub(base).normalize();
+      var rod = new THREE.Mesh(new THREE.CylinderGeometry(0.012,0.012,len,8), mat);
+      rod.position.copy(mid);
+      rod.quaternion.copy(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), dir));
+      parent.add(rod);
+    });
+    addBox(parent, [spread*2+0.02,0.012,0.06], mat, [x,h,z]);
+  }
+  function addWeaveGrid(parent, w, d, y, mat, countU, countV, thickness){
+    thickness = thickness || 0.011;
+    for (var i=0;i<=countU;i++){
+      var z = (i/countU - 0.5)*d;
+      addCyl(parent, thickness, thickness, w, 6, mat, [0,y,z], [0,0,Math.PI/2]);
+    }
+    for (var j=0;j<=countV;j++){
+      var x = (j/countV - 0.5)*w;
+      addCyl(parent, thickness, thickness, d, 6, mat, [x,y,0], [Math.PI/2,0,0]);
+    }
+  }
+
+  // ---------- product builders ----------
+  function buildTable(){
+    var g = new THREE.Group();
+    addBox(g, [2.2,0.14,1.1], mats.concrete, [0,0.82,0]);
+    for (var i=0;i<7;i++){
+      var s = 0.045+Math.random()*0.05;
+      var rock = new THREE.Mesh(new THREE.DodecahedronGeometry(s,0), mats.concreteDark);
+      rock.position.set((Math.random()-0.5)*1.9, 0.895, (Math.random()-0.5)*0.9);
+      rock.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+      g.add(rock);
+    }
+    addLegs(g, [[-1.0,-0.46],[1.0,-0.46],[-1.0,0.46],[1.0,0.46]], 0.05, 0.75, mats.wood, mats.metal);
+    return g;
+  }
+
+  function buildCabinet(){
+    var g = new THREE.Group(); var w=1.0,h=1.3,d=0.45;
+    addBox(g, [w,0.03,d], mats.wood, [0,h,0]);
+    addBox(g, [w,0.03,d], mats.wood, [0,0.02,0]);
+    addBox(g, [0.03,h,d], mats.wood, [-w/2+0.015,h/2,0]);
+    addBox(g, [0.03,h,d], mats.wood, [ w/2-0.015,h/2,0]);
+    addBox(g, [w-0.03,h-0.05,0.02], mats.wood, [0,h/2,-d/2+0.01]);
+    var doorW = (w-0.06)/2 - 0.01;
+    addBox(g, [doorW,h-0.12,0.02], mats.wood, [-doorW/2-0.005,h/2,d/2-0.01]);
+    addBox(g, [doorW,h-0.12,0.02], mats.wood, [ doorW/2+0.005,h/2,d/2-0.01]);
+    addCyl(g, 0.012,0.012,0.14,8, mats.metal, [-0.05,h/2,d/2+0.01], [Math.PI/2,0,0]);
+    addCyl(g, 0.012,0.012,0.14,8, mats.metal, [ 0.05,h/2,d/2+0.01], [Math.PI/2,0,0]);
+    addLegs(g, [[-w/2+0.06,-d/2+0.06],[w/2-0.06,-d/2+0.06],[-w/2+0.06,d/2-0.06],[w/2-0.06,d/2-0.06]], 0.02,0.05, mats.metal);
+    return g;
+  }
+
+  function buildDrawers(){
+    var g = new THREE.Group(); var w=0.9,h=1.0,d=0.45;
+    addBox(g, [w,0.03,d], mats.wood, [0,h,0]);
+    addBox(g, [w,0.03,d], mats.wood, [0,0.02,0]);
+    addBox(g, [0.03,h,d], mats.wood, [-w/2+0.015,h/2,0]);
+    addBox(g, [0.03,h,d], mats.wood, [ w/2-0.015,h/2,0]);
+    addBox(g, [w-0.03,h-0.05,0.02], mats.wood, [0,h/2,-d/2+0.01]);
+    [0.15,0.375,0.60,0.825].forEach(function(y){
+      addBox(g, [w-0.08,0.19,0.02], mats.wood, [0,y,d/2-0.01]);
+      addBox(g, [0.16,0.02,0.02], mats.metal, [0,y,d/2+0.01]);
+    });
+    addLegs(g, [[-w/2+0.06,-d/2+0.06],[w/2-0.06,-d/2+0.06],[-w/2+0.06,d/2-0.06],[w/2-0.06,d/2-0.06]], 0.02,0.05, mats.metal);
+    return g;
+  }
+
+  function buildShelf(){
+    var g = new THREE.Group();
+    addBox(g, [0.06,1.5,0.32], mats.wood, [-0.47,0.75,0]);
+    addBox(g, [0.06,1.5,0.32], mats.wood, [ 0.47,0.75,0]);
+    [0.05,0.5,0.95,1.4].forEach(function(y){
+      addBox(g, [0.94,0.035,0.3], mats.wood, [0,y,0]);
+      [-0.4,0.4].forEach(function(x){
+        addBox(g, [0.025,0.16,0.025], mats.metal, [x,y-0.075,0.09], [Math.PI/4.2,0,0]);
+      });
+    });
+    return g;
+  }
+
+  function buildDiningTable(){
+    var g = new THREE.Group();
+    addBox(g, [2.6,0.06,1.0], mats.wood, [0,0.78,0]);
+    [[-1.2,-0.42],[1.2,-0.42],[-1.2,0.42],[1.2,0.42]].forEach(function(p){
+      addHairpinLeg(g, p[0], p[1], 0.75, mats.metal, 0.08);
+    });
+    return g;
+  }
+
+  function buildChair(){
+    var g = new THREE.Group();
+    var ft = 0.035;
+    addLegs(g, [[-0.30,0.28],[0.30,0.28]], 0.032, 0.42, mats.wood, mats.metal);
+    addLegs(g, [[-0.30,-0.28],[0.30,-0.28]], 0.032, 1.05, mats.wood, mats.metal);
+    addBox(g, [0.64,ft,ft], mats.wood, [0,0.44,0.28]);
+    addBox(g, [0.64,ft,ft], mats.wood, [0,0.44,-0.28]);
+    addBox(g, [ft,ft,0.58], mats.wood, [-0.30,0.44,0]);
+    addBox(g, [ft,ft,0.58], mats.wood, [ 0.30,0.44,0]);
+    addBox(g, [0.60,0.05,0.58], mats.rope, [0,0.475,0]);
+    addBox(g, [0.045,0.045,0.58], mats.wood, [-0.30,0.62,0]);
+    addBox(g, [0.045,0.045,0.58], mats.wood, [ 0.30,0.62,0]);
+    addBox(g, [0.60,0.42,0.035], mats.wood, [0,0.75,-0.285]);
+    addBox(g, [0.55,0.38,0.04], mats.rope, [0,0.75,-0.24]);
+    return g;
+  }
+
+  function buildDiningChair(){
+    var g = new THREE.Group();
+    addLegs(g, [[-0.19,-0.19],[0.19,-0.19],[-0.19,0.19],[0.19,0.19]], 0.02, 0.45, mats.wood);
+    addBox(g, [0.42,0.04,0.42], mats.wood, [0,0.47,0]);
+    [-0.12,0,0.12].forEach(function(x){
+      addBox(g, [0.045,0.34,0.02], mats.wood, [x,0.67,-0.19]);
+    });
+    addBox(g, [0.42,0.035,0.02], mats.wood, [0,0.84,-0.19]);
+    return g;
+  }
+
+  function buildSideTable(){
+    var g = new THREE.Group();
+    addBox(g, [0.5,0.04,0.4], mats.wood, [0,0.6,0]);
+    addLegs(g, [[-0.21,-0.16],[0.21,-0.16],[-0.21,0.16],[0.21,0.16]], 0.02, 0.58, mats.wood);
+    addBox(g, [0.44,0.14,0.03], mats.wood, [0,0.46,0.185]);
+    addCyl(g, 0.012,0.012,0.12,8, mats.metal, [0,0.46,0.205], [Math.PI/2,0,0]);
+    return g;
+  }
+
+  function buildLamp(){
+    var g = new THREE.Group();
+    addBox(g, [0.12,0.03,0.12], mats.metal, [0,1.55,0]);
+    addCyl(g, 0.008,0.008,0.55,8, mats.metalDark, [0,1.275,0]);
+    addCyl(g, 0.26,0.26,0.024,24, mats.metal, [0,1.0,0]);
+    var shade = new THREE.Mesh(new THREE.ConeGeometry(0.26,0.34,24,1,true), mats.plastic);
+    shade.position.set(0,0.83,0); g.add(shade);
+    var bulb = new THREE.Mesh(new THREE.SphereGeometry(0.05,16,16), mats.bulb);
+    bulb.position.set(0,0.95,0); g.add(bulb);
+    var light = new THREE.PointLight(0xffdca8, 1.3, 3.2, 2);
+    light.position.copy(bulb.position); g.add(light);
+    return g;
+  }
+
+  function buildPipeShelf(){
+    var g = new THREE.Group();
+    addLegs(g, [[-0.45,-0.18],[0.45,-0.18],[-0.45,0.18],[0.45,0.18]], 0.018, 1.3, mats.metal);
+    [0.35,0.75,1.15].forEach(function(y){
+      addBox(g, [0.94,0.03,0.34], mats.wood, [0,y,0]);
+    });
+    return g;
+  }
+
+  function buildCoatRack(){
+    var g = new THREE.Group();
+    addCyl(g, 0.16,0.16,0.03,20, mats.metal, [0,0.015,0]);
+    addCyl(g, 0.018,0.018,1.55,10, mats.metal, [0,0.79,0]);
+    var hookCount = 6;
+    for (var i=0;i<hookCount;i++){
+      var angle = i*(Math.PI*2/hookCount);
+      var yy = 1.35 + (i%2)*0.08;
+      var hx = Math.cos(angle), hz = Math.sin(angle);
+      var hook = new THREE.Mesh(new THREE.CylinderGeometry(0.012,0.012,0.16,6), mats.metal);
+      hook.position.set(hx*0.09, yy, hz*0.09);
+      var dir = new THREE.Vector3(hx,-0.35,hz).normalize();
+      hook.quaternion.copy(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), dir));
+      g.add(hook);
+    }
+    return g;
+  }
+
+  function buildHairpinCoffeeTable(){
+    var g = new THREE.Group();
+    addBox(g, [1.1,0.05,0.6], mats.wood, [0,0.42,0]);
+    [[-0.48,-0.24],[0.48,-0.24],[-0.48,0.24],[0.48,0.24]].forEach(function(p){
+      addHairpinLeg(g, p[0], p[1], 0.395, mats.metal, 0.07);
+    });
+    return g;
+  }
+
+  function buildLoveseat(){
+    var g = new THREE.Group();
+    addBox(g, [1.3,0.10,0.65], mats.wood, [0,0.27,0]);
+    addLegs(g, [[-0.6,-0.28],[0.6,-0.28],[-0.6,0.28],[0.6,0.28]], 0.025, 0.22, mats.wood);
+    addBox(g, [1.3,0.5,0.10], mats.wood, [0,0.57,-0.30]);
+    [-0.33,0.33].forEach(function(x){
+      addBox(g, [0.60,0.16,0.58], mats.fabricSofa, [x,0.40,0.02]);
+      addBox(g, [0.60,0.36,0.09], mats.fabricSofa, [x,0.68,-0.24]);
+    });
+    addBox(g, [0.12,0.34,0.60], mats.wood, [-0.65,0.49,0]);
+    addBox(g, [0.12,0.34,0.60], mats.wood, [ 0.65,0.49,0]);
+    return g;
+  }
+
+  function buildPouf(){
+    var g = new THREE.Group();
+    var top = new THREE.Mesh(new THREE.SphereGeometry(0.26,20,14), mats.fabricPouf);
+    top.scale.set(1,0.52,1); top.position.set(0,0.22,0);
+    g.add(top);
+    addLegs(g, [[-0.16,-0.16],[0.16,-0.16],[-0.16,0.16],[0.16,0.16]], 0.018, 0.08, mats.wood);
+    return g;
+  }
+
+  function buildBasket(){
+    var g = new THREE.Group();
+    var wall = new THREE.Mesh(new THREE.CylinderGeometry(0.28,0.22,0.32,20,1,true), mats.fabricBasket);
+    wall.position.set(0,0.16,0); g.add(wall);
+    addCyl(g, 0.28,0.28,0.012, 24, mats.metal, [0,0.32,0]);
+    addCyl(g, 0.22,0.22,0.02, 20, mats.metal, [0,0.01,0]);
+    [-0.28,0.28].forEach(function(x){
+      var handle = new THREE.Mesh(new THREE.TorusGeometry(0.07,0.01,8,16,Math.PI), mats.metal);
+      handle.position.set(x,0.30,0);
+      handle.rotation.z = x<0 ? Math.PI/2 : -Math.PI/2;
+      g.add(handle);
+    });
+    return g;
+  }
+
+  function buildBed(){
+    var g = new THREE.Group();
+    addBox(g, [1.6,0.12,2.0], mats.wood, [0,0.20,0]);
+    addLegs(g, [[-0.65,-0.85],[0.65,-0.85],[-0.65,0],[0.65,0],[-0.65,0.85],[0.65,0.85]], 0.03, 0.14, mats.wood);
+    addBox(g, [1.6,0.55,0.06], mats.wood, [0,0.535,-0.96]);
+    addBox(g, [1.5,0.12,1.9], mats.rope, [0,0.32,0.02]);
+    [[-0.78,-0.98],[0.78,-0.98],[-0.78,0.98],[0.78,0.98]].forEach(function(p){
+      addBox(g, [0.05,0.05,0.05], mats.metal, [p[0],0.26,p[1]]);
+    });
+    return g;
+  }
+
+  function buildMirror(){
+    var g = new THREE.Group();
+    addBox(g, [0.62,0.92,0.045], mats.wood, [0,0.60,0]);
+    addBox(g, [0.52,0.82,0.012], mats.mirror, [0,0.60,0.03]);
+    [[-0.27,0.18],[0.27,0.18],[-0.27,1.02],[0.27,1.02]].forEach(function(p){
+      addBox(g, [0.05,0.05,0.05], mats.metal, [p[0],p[1],0.026]);
+    });
+    return g;
+  }
+
+  function buildDesk(){
+    var g = new THREE.Group();
+    addBox(g, [1.1,0.045,0.55], mats.wood, [0,0.7425,0]);
+    addLegs(g, [[-0.50,-0.24],[0.50,-0.24],[-0.50,0.24],[0.50,0.24]], 0.022, 0.72, mats.metal);
+    addBox(g, [0.94,0.12,0.03], mats.wood, [0,0.65,0.26]);
+    addCyl(g, 0.010,0.010,0.12,8, mats.metal, [0,0.65,0.28], [Math.PI/2,0,0]);
+    return g;
+  }
+
+  // ---------- product catalog ----------
+  var PRODUCTS = [
+    { name:'طاولة الأنقاض', tagline:'من ركام الهدم إلى قطعة مركزية', category:'مختلط',
+      rationale:'تتحول أنقاض الهدم المتوفرة بكثرة في غزة إلى سطح طاولة متين بدلاً من دفنها كنفايات صلبة.',
+      composition:[{label:'ركام الأنقاض المسترجع',pct:60,key:'concrete'},{label:'خشب مسترجع',pct:25,key:'wood'},{label:'معدن معاد تدويره',pct:15,key:'metal'}],
+      build: buildTable },
+    { name:'خزانة الاسترجاع', tagline:'خزانة أبواب من ألواح مستردة', category:'خشب',
+      rationale:'ألواح خشبية من مواقع الهدم تتحول إلى خزانة تخزين متكاملة بأبواب ومقابض معدنية بسيطة.',
+      composition:[{label:'خشب مسترجع',pct:80,key:'wood'},{label:'معدن (مقابض ومفصلات)',pct:20,key:'metal'}],
+      build: buildCabinet },
+    { name:'خزانة الأدراج', tagline:'جرارات تخزين عملية من الخشب المسترجع', category:'خشب',
+      rationale:'أربعة أدراج من الخشب المسترجع بمقابض معدنية، مصممة للاستخدام المنزلي اليومي بأقل تكلفة.',
+      composition:[{label:'خشب مسترجع',pct:75,key:'wood'},{label:'معدن (مقابض)',pct:25,key:'metal'}],
+      build: buildDrawers },
+    { name:'رف الحياة الثانية', tagline:'تخزين معياري من ألواح مستردة', category:'خشب',
+      rationale:'ألواح خشبية من مواقع الهدم تُعاد هيكلتها كوحدة تخزين قابلة للتكرار والتوسع بحسب المساحة المتاحة.',
+      composition:[{label:'خشب مسترجع',pct:70,key:'wood'},{label:'معدن معاد تدويره',pct:30,key:'metal'}],
+      build: buildShelf },
+    { name:'طاولة الطعام المشتركة', tagline:'طاولة عائلية بأرجل معدنية معاد تدويرها', category:'مختلط',
+      rationale:'سطح خشبي طويل يتسع لعائلة كاملة، محمول على أرجل معدنية معاد تشكيلها من مخلفات صناعية.',
+      composition:[{label:'خشب مسترجع',pct:65,key:'wood'},{label:'معدن معاد تدويره',pct:35,key:'metal'}],
+      build: buildDiningTable },
+    { name:'كرسي الاسترجاع', tagline:'كرسي بذراعين بمقعد وظهر من نسيج معاد تدويره', category:'مختلط',
+      rationale:'إطار خشبي عادي بذراعين وأربع أرجل، مع وسادة مقعد وظهر من نسيج معاد تدويره — كرسي كامل الراحة دون أي مواد خام جديدة.',
+      composition:[{label:'خشب مسترجع',pct:50,key:'wood'},{label:'نسيج وخيوط معاد تدويرها',pct:40,key:'rope'},{label:'معدن (وصلات)',pct:10,key:'metal'}],
+      build: buildChair },
+    { name:'كرسي الطعام', tagline:'كرسي بسيط بالكامل من الخشب المسترجع', category:'خشب',
+      rationale:'تصميم كرسي طعام كلاسيكي يستخدم أقل عدد من المواد، مثالي للإنتاج بكميات كبيرة بتكلفة منخفضة.',
+      composition:[{label:'خشب مسترجع',pct:95,key:'wood'},{label:'معدن (وصلات)',pct:5,key:'metal'}],
+      build: buildDiningChair },
+    { name:'الطاولة الجانبية', tagline:'طاولة صغيرة بدرج واحد', category:'خشب',
+      rationale:'قطعة صغيرة متعددة الاستخدامات تُصنع من قصاصات الخشب المتبقية من قطع أكبر، بلا هدر إضافي.',
+      composition:[{label:'خشب مسترجع',pct:85,key:'wood'},{label:'معدن (مقبض)',pct:15,key:'metal'}],
+      build: buildSideTable },
+    { name:'مصباح إعادة التدوير', tagline:'إضاءة من معدن وبلاستيك مسترجعين', category:'معدن',
+      rationale:'هيكل معدني بسيط وغطاء من بلاستيك معاد تدويره يحوّلان نفايات صلبة إلى قطعة إضاءة وظيفية وجذابة.',
+      composition:[{label:'معدن معاد تدويره',pct:45,key:'metal'},{label:'بلاستيك معاد تدويره',pct:55,key:'plastic'}],
+      build: buildLamp },
+    { name:'رف الأنابيب المعدنية', tagline:'وحدة عرض من أنابيب وألواح خشبية', category:'معدن',
+      rationale:'أنابيب معدنية معاد تدويرها تحمل ألواح خشبية مستردة، بأسلوب صناعي يناسب المتاجر والمساحات المفتوحة.',
+      composition:[{label:'معدن معاد تدويره',pct:55,key:'metal'},{label:'خشب مسترجع',pct:45,key:'wood'}],
+      build: buildPipeShelf },
+    { name:'شماعة الحديد', tagline:'حامل ملابس معدني بالكامل', category:'معدن',
+      rationale:'قطعة معدنية واحدة بالكامل من مخلفات التسليح، بتصميم بسيط لا يحتاج أي مادة إضافية.',
+      composition:[{label:'معدن معاد تدويره',pct:100,key:'metal'}],
+      build: buildCoatRack },
+    { name:'طاولة القهوة الحديدية', tagline:'سطح خشبي على أرجل حديدية معلقة', category:'مختلط',
+      rationale:'دمج بين دفء الخشب المسترجع وخفة الأرجل المعدنية المعاد تشكيلها، بتصميم عصري يناسب أي مساحة.',
+      composition:[{label:'خشب مسترجع',pct:60,key:'wood'},{label:'معدن معاد تدويره',pct:40,key:'metal'}],
+      build: buildHairpinCoffeeTable },
+    { name:'أريكة الحياة الثانية', tagline:'أريكة بإطار خشبي ووسائد قماشية', category:'مختلط',
+      rationale:'إطار من الخشب المسترجع ووسائد من نسيج معاد تدويره، توفر راحة جلوس كاملة بتكلفة أقل بكثير من أثاث جديد.',
+      composition:[{label:'خشب مسترجع',pct:45,key:'wood'},{label:'نسيج معاد تدويره',pct:55,key:'rope'}],
+      build: buildLoveseat },
+    { name:'البوف القماشي', tagline:'مقعد دائري بغطاء منسوج', category:'قماش',
+      rationale:'غطاء منسوج من خيوط قماشية مسترجعة فوق قاعدة خشبية بسيطة، قطعة خفيفة ومتعددة الاستخدامات.',
+      composition:[{label:'نسيج معاد تدويره',pct:70,key:'rope'},{label:'خشب (قاعدة)',pct:30,key:'wood'}],
+      build: buildPouf },
+    { name:'سلة التخزين المنسوجة', tagline:'سلة تخزين من خيوط وإطار معدني', category:'قماش',
+      rationale:'نسيج وخيوط معاد تدويرها منسوجة حول إطار معدني خفيف، بديل عملي لعلب البلاستيك التقليدية.',
+      composition:[{label:'نسيج وخيوط معاد تدويرها',pct:65,key:'rope'},{label:'معدن (إطار)',pct:35,key:'metal'}],
+      build: buildBasket },
+    { name:'السرير الخشبي', tagline:'قاعدة نوم بلوحة رأس وغطاء منسوج', category:'خشب',
+      rationale:'قاعدة خشبية متينة من ألواح مسترجعة، بغطاء مرتبة من نسيج معاد تدويره وتفاصيل معدنية بسيطة في الزوايا.',
+      composition:[{label:'خشب مسترجع',pct:70,key:'wood'},{label:'نسيج معاد تدويره',pct:20,key:'rope'},{label:'معدن (زوايا)',pct:10,key:'metal'}],
+      build: buildBed },
+    { name:'المرآة المعاد تدويرها', tagline:'إطار خشبي بلوح معدني مصقول', category:'مختلط',
+      rationale:'إطار من الخشب المسترجع يحيط بلوح معدني معاد تدويره ومصقول ليعمل كسطح عاكس بديل عن المرايا الجديدة.',
+      composition:[{label:'خشب مسترجع (إطار)',pct:55,key:'wood'},{label:'معدن مصقول معاد تدويره',pct:45,key:'metal'}],
+      build: buildMirror },
+    { name:'المكتب الصغير', tagline:'مكتب عمل بأرجل معدنية ودرج واحد', category:'مختلط',
+      rationale:'سطح من الخشب المسترجع على أرجل معدنية معاد تشكيلها، بدرج تخزين صغير — حل عملي لمساحات الدراسة والعمل الضيقة.',
+      composition:[{label:'خشب مسترجع',pct:70,key:'wood'},{label:'معدن معاد تدويره',pct:30,key:'metal'}],
+      build: buildDesk }
+  ];
+
+  // ---------- scene setup ----------
+  var canvas = document.getElementById('slCanvas');
+  var stageWrap = canvas.parentElement;
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias:true, alpha:true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  if (THREE.ACESFilmicToneMapping) renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.05;
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 60);
+
+  // studio backdrop (follows camera orbit, fixed gradient cove)
+  var backdrop = new THREE.Mesh(
+    new THREE.SphereGeometry(28, 24, 16),
+    new THREE.MeshBasicMaterial({ map: makeSkyTexture(), side: THREE.BackSide, depthWrite:false })
+  );
+  scene.add(backdrop);
+
+  // three-point lighting
+  scene.add(new THREE.HemisphereLight(0xf3f5ea, 0x2a2c22, 0.55));
+  var key = new THREE.DirectionalLight(0xfff3e0, 1.15); key.position.set(3,5,2.4); scene.add(key);
+  var fillL = new THREE.DirectionalLight(0xbcd0ff, 0.35); fillL.position.set(-3.5,1.8,-1.5); scene.add(fillL);
+  var rim = new THREE.DirectionalLight(0xffffff, 0.45); rim.position.set(-1,3,-4); scene.add(rim);
+
+  var shadowPlane = new THREE.Mesh(
+    new THREE.PlaneGeometry(3.4,3.4),
+    new THREE.MeshBasicMaterial({ map: makeShadowTexture(), transparent:true, depthWrite:false })
+  );
+  shadowPlane.rotation.x = -Math.PI/2; shadowPlane.position.y = 0.001;
+  scene.add(shadowPlane);
+
+  var groups = PRODUCTS.map(function(p){
+    var g = p.build(); g.visible = false; scene.add(g); return g;
+  });
+
+  var cam = { theta: 0.9, phi: 1.12 };
+  var camTarget = new THREE.Vector3(0,0.5,0);
+  var camTargetGoal = new THREE.Vector3(0,0.5,0);
+  var radius = 3.4, radiusGoal = 3.4;
+  var dragging = false, lastX = 0, lastY = 0;
+  var autoSpeed = 0.0028;
+
+  canvas.addEventListener('pointerdown', function(e){
+    dragging = true; lastX = e.clientX; lastY = e.clientY;
+    try { canvas.setPointerCapture(e.pointerId); } catch(err){}
+  });
+  window.addEventListener('pointerup', function(){ dragging = false; });
+  canvas.addEventListener('pointermove', function(e){
+    if (!dragging) return;
+    var dx = e.clientX - lastX, dy = e.clientY - lastY;
+    lastX = e.clientX; lastY = e.clientY;
+    cam.theta -= dx * 0.0062;
+    cam.phi = Math.min(Math.max(cam.phi - dy * 0.0062, 0.42), 1.48);
+  });
+
+  function resize(){
+    var w = stageWrap.clientWidth, h = canvas.clientHeight || stageWrap.clientHeight;
+    if (!w || !h) return;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  if (window.ResizeObserver){ new ResizeObserver(resize).observe(stageWrap); }
+
+  function animate(){
+    requestAnimationFrame(animate);
+    if (!dragging) cam.theta += autoSpeed;
+    radius += (radiusGoal - radius) * 0.08;
+    camTarget.lerp(camTargetGoal, 0.08);
+    camera.position.set(
+      camTarget.x + radius * Math.sin(cam.phi) * Math.cos(cam.theta),
+      camTarget.y + radius * Math.cos(cam.phi),
+      camTarget.z + radius * Math.sin(cam.phi) * Math.sin(cam.theta)
+    );
+    camera.lookAt(camTarget);
+    renderer.render(scene, camera);
+  }
+
+  // ---------- UI wiring ----------
+  var chipsEl = document.getElementById('slChips');
+  var catalogEl = document.getElementById('slCatalog');
+  var nameEl = document.getElementById('slName');
+  var tagEl = document.getElementById('slTag');
+  var catBadgeEl = document.getElementById('slCatBadge');
+  var rationaleEl = document.getElementById('slRationale');
+  var barEl = document.getElementById('slBar');
+  var legendEl = document.getElementById('slLegend');
+
+  var CHIP_LIST = ['الكل','خشب','معدن','قماش','مختلط'];
+  var activeFilter = 'الكل';
+  var activeIndex = 0;
+
+  CHIP_LIST.forEach(function(cat){
+    var chip = document.createElement('button');
+    chip.className = 'sl-chip' + (cat === activeFilter ? ' active' : '');
+    var dotColor = cat === 'الكل' ? getVar('--accent') : getVar(CATEGORY_META[cat].colorVar);
+    chip.innerHTML = '<span class="sl-chip-dot" style="background:' + dotColor + '"></span>' +
+      '<span>' + (cat === 'الكل' ? cat : CATEGORY_META[cat].icon + ' ' + cat) + '</span>';
+    chip.addEventListener('click', function(){
+      activeFilter = cat;
+      Array.prototype.forEach.call(chipsEl.children, function(el){ el.classList.remove('active'); });
+      chip.classList.add('active');
+      applyFilter();
+    });
+    chipsEl.appendChild(chip);
+  });
+
+  PRODUCTS.forEach(function(p, i){
+    var meta = CATEGORY_META[p.category];
+    var card = document.createElement('button');
+    card.className = 'sl-card';
+    card.setAttribute('data-category', p.category);
+    card.innerHTML =
+      '<span class="sl-card-icon">' + meta.icon + '</span>' +
+      '<span class="sl-card-text"><span class="sl-card-name">' + p.name + '</span>' +
+      '<span class="sl-card-tag">' + p.tagline + '</span></span>';
+    card.addEventListener('click', function(){ selectProduct(i); });
+    catalogEl.appendChild(card);
+  });
+
+  function applyFilter(){
+    Array.prototype.forEach.call(catalogEl.children, function(card){
+      var cat = card.getAttribute('data-category');
+      card.hidden = (activeFilter !== 'الكل' && cat !== activeFilter);
+    });
+  }
+
+  function updateActiveCard(index){
+    Array.prototype.forEach.call(catalogEl.children, function(el, i){
+      el.classList.toggle('active', i === index);
+    });
+  }
+
+  function updateDetail(index){
+    var p = PRODUCTS[index];
+    var meta = CATEGORY_META[p.category];
+    nameEl.textContent = p.name;
+    tagEl.textContent = p.tagline;
+    catBadgeEl.innerHTML = '<span>' + meta.icon + '</span><span>' + p.category + '</span>';
+    rationaleEl.textContent = p.rationale;
+    barEl.innerHTML = ''; legendEl.innerHTML = '';
+    p.composition.forEach(function(c){
+      var seg = document.createElement('div');
+      seg.className = 'sl-comp-seg';
+      seg.style.width = c.pct + '%';
+      seg.style.background = MATERIAL_COLORS[c.key];
+      barEl.appendChild(seg);
+
+      var item = document.createElement('div');
+      item.className = 'sl-legend-item';
+      item.innerHTML = '<span class="sl-legend-dot" style="background:' + MATERIAL_COLORS[c.key] + '"></span>' +
+        '<span>' + c.label + ' — ' + c.pct + '%</span>';
+      legendEl.appendChild(item);
+    });
+  }
+
+  function selectProduct(index){
+    activeIndex = index;
+    groups.forEach(function(g, i){ g.visible = (i === index); });
+    var box = new THREE.Box3().setFromObject(groups[index]);
+    var center = box.getCenter(new THREE.Vector3());
+    var size = box.getSize(new THREE.Vector3());
+    var maxDim = Math.max(size.x, size.y, size.z);
+    camTargetGoal.copy(center);
+    radiusGoal = maxDim * 1.85 + 0.9;
+    updateDetail(index);
+    updateActiveCard(index);
+  }
+
+  applyFilter();
+  resize();
+  selectProduct(0);
+  animate();
+})();
+</script>
